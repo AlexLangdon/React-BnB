@@ -1,0 +1,39 @@
+.toolbar {
+	background-color: #343a40;
+
+	.logo {
+		height: 40px;
+		width: 40px;
+		margin-right: 10px;
+	}
+	
+	h6.title {
+		line-height: 40px;
+	
+		&:hover {
+			color: white;
+	
+		}
+	}
+
+	.search-field {
+		background: white;
+		border-radius: 4px;
+	
+		fieldset {
+			border-color: #61dafb !important;
+		}
+	}
+	
+	.search-button {
+		height: 40px;
+	}
+
+	.header-links Button {
+		color: white;
+	
+		&:hover {
+			color: #61dafb;
+		}
+	}
+}
