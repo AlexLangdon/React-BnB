@@ -5,6 +5,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import React from "react";
 import "./App.css";
 import Header from "./components/common/Header";
+import RentalHomePage from "./pages/RentalHomePage";
 import { appTheme } from "./theme";
 
 function App() {
@@ -13,6 +14,7 @@ function App() {
 			<LocalizationProvider dateAdapter={DateFnsUtils}>
 				<MuiThemeProvider theme={appTheme}>
 					<Header />
+					<RentalHomePage />
 				</MuiThemeProvider>
 			</LocalizationProvider>
 		</div>
