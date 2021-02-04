@@ -1,95 +1,27 @@
-import { Card, CardContent, CardMedia, Typography } from "@material-ui/core";
 import React from "react";
+import RentalOptionCard from "../components/RentalOptionCard/RentalOptionCard";
+import { RentalOption } from "../models/RentalOption";
 import "./RentalHomePage.scss";
 
 export default function RentalHomePage() {
+	const rentalOptions: Array<RentalOption> = new Array(10).fill(null).map((_, i) => {
+		return {
+			id: i.toString(),
+			title: "Modern apartment in city center",
+			city: "London",
+			category: "Apartment",
+			imageSrc: "http://via.placeholder.com/300x200",
+			numRooms: 1,
+			shared: false,
+			description: "Stylish third floor apartment in the heart of London",
+			dailyPrice: 100,
+		}
+	});
+
 	return <div className="rental-home-root mt-5 mx-auto px-5">
 		<h1 className="title text-center col-sm-12 mb-4">Experience the world</h1>
 		<div className="d-flex flex-wrap justify-content-center">
-			<Card className="rental-option-card m-3">
-				<CardMedia className="rental-card-image" image="http://via.placeholder.com/300x200" />
-				<CardContent>
-					<Typography variant="subtitle2" color="textSecondary">
-						WHOLE APARTMENT - LONDON
-					</Typography>
-					<Typography variant="h6" className="font-weight-bold">
-						Cozy Place
-					</Typography>
-					<Typography variant="subtitle1" color="textSecondary">
-						£30 per Night - Free Cancellation
-					</Typography>
-				</CardContent>
-			</Card>
-			<Card className="rental-option-card m-3">
-				<CardMedia className="rental-card-image" image="http://via.placeholder.com/300x200" />
-				<CardContent>
-					<Typography variant="subtitle2" color="textSecondary">
-						WHOLE APARTMENT - LONDON
-					</Typography>
-					<Typography variant="h6" className="font-weight-bold">
-						Cozy Place
-					</Typography>
-					<Typography variant="subtitle1" color="textSecondary">
-						£30 per Night - Free Cancellation
-					</Typography>
-				</CardContent>
-			</Card>
-			<Card className="rental-option-card m-3">
-				<CardMedia className="rental-card-image" image="http://via.placeholder.com/300x200" />
-				<CardContent>
-					<Typography variant="subtitle2" color="textSecondary">
-						WHOLE APARTMENT - LONDON
-					</Typography>
-					<Typography variant="h6" className="font-weight-bold">
-						Cozy Place
-					</Typography>
-					<Typography variant="subtitle1" color="textSecondary">
-						£30 per Night - Free Cancellation
-					</Typography>
-				</CardContent>
-			</Card>
-			<Card className="rental-option-card m-3">
-				<CardMedia className="rental-card-image" image="http://via.placeholder.com/300x200" />
-				<CardContent>
-					<Typography variant="subtitle2" color="textSecondary">
-						WHOLE APARTMENT - LONDON
-					</Typography>
-					<Typography variant="h6" className="font-weight-bold">
-						Cozy Place
-					</Typography>
-					<Typography variant="subtitle1" color="textSecondary">
-						£30 per Night - Free Cancellation
-					</Typography>
-				</CardContent>
-			</Card>
-			<Card className="rental-option-card m-3">
-				<CardMedia className="rental-card-image" image="http://via.placeholder.com/300x200" />
-				<CardContent>
-					<Typography variant="subtitle2" color="textSecondary">
-						WHOLE APARTMENT - LONDON
-					</Typography>
-					<Typography variant="h6" className="font-weight-bold">
-						Cozy Place
-					</Typography>
-					<Typography variant="subtitle1" color="textSecondary">
-						£30 per Night - Free Cancellation
-					</Typography>
-				</CardContent>
-			</Card>
-			<Card className="rental-option-card m-3">
-				<CardMedia className="rental-card-image" image="http://via.placeholder.com/300x200" />
-				<CardContent>
-					<Typography variant="subtitle2" color="textSecondary">
-						WHOLE APARTMENT - LONDON
-					</Typography>
-					<Typography variant="h6" className="font-weight-bold">
-						Cozy Place
-					</Typography>
-					<Typography variant="subtitle1" color="textSecondary">
-						£30 per Night - Free Cancellation
-					</Typography>
-				</CardContent>
-			</Card>
+			{rentalOptions.map(option => <RentalOptionCard key={option.id} {...option} />)}
 		</div>
 	</div>
 }
