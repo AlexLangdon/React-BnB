@@ -1,7 +1,7 @@
 import { AppBar, Button, InputAdornment, TextField, Toolbar, Typography } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 import React from "react";
-import { ReactComponent as Logo } from "../../images/logo.svg";
+import { ReactComponent as Logo } from "../../../images/logo.svg";
 import "./Header.scss";
 
 export default function Header() {
