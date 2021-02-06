@@ -1,6 +1,7 @@
 import { AppBar, Button, InputAdornment, TextField, Toolbar, Typography } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 import React from "react";
+import { Link } from "react-router-dom";
 import { ReactComponent as Logo } from "../../../images/logo.svg";
 import "./Header.scss";
 
@@ -12,7 +13,7 @@ export default function Header(): JSX.Element {
 					<Logo className="logo" />
 					<Button color="inherit" size="small" className="py-0 px-2">
 						<Typography variant="h6" color="secondary" className="title" >
-							React BnB
+							<Link to="/">React BnB</Link>
 						</Typography>
 					</Button>
 					<div className="d-none d-md-block">
@@ -26,8 +27,8 @@ export default function Header(): JSX.Element {
 						<Button className="search-button" color="secondary" variant="outlined">Search</Button>
 					</div>
 					<div className="ml-auto header-links">
-						<Button color="inherit">Log in</Button>
-						<Button color="inherit">Sign Up</Button>
+						<Button color="inherit"><Link to="/login">Log in</Link></Button>
+						<Button color="inherit"><Link to="/signup">Sign Up</Link></Button>
 					</div>
 				</div>
 				<div className="d-flex d-md-none my-2">
