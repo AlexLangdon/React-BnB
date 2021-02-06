@@ -1,7 +1,7 @@
+import RentalOptionCard from "components/RentalOptionCard/RentalOptionCard";
+import { RentalOption } from "models/RentalOption";
 import React from "react";
-import RentalOptionCard from "../../components/RentalOptionCard/RentalOptionCard";
-import { RentalOption } from "../../models/RentalOption";
-import store from "../../store/store";
+import store from "store/store";
 import "./RentalHomePage.scss";
 
 export default function RentalHomePage(): JSX.Element {

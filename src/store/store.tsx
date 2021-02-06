@@ -1,4 +1,4 @@
-import { RentalOption } from "../models/RentalOption";
+import { RentalOption } from "models/RentalOption";
 
 const store = {
 	getRentalOptions: (): Array<RentalOption> => (

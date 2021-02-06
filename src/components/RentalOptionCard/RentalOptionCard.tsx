@@ -1,6 +1,6 @@
 import { Card, CardContent, CardMedia, Typography } from "@material-ui/core";
+import { RentalOption } from "models/RentalOption";
 import React from "react";
-import { RentalOption } from "../../models/RentalOption";
 
 export default function RentalOptionCard(option: RentalOption): JSX.Element {
 	return (
