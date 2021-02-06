@@ -4,7 +4,7 @@ import React from "react";
 import { ReactComponent as Logo } from "../../../images/logo.svg";
 import "./Header.scss";
 
-export default function Header() {
+export default function Header(): JSX.Element {
 	return <AppBar position="static">
 		<Toolbar className="toolbar d-flex">
 			<div className="flex-column flex-grow-1">
@@ -21,7 +21,7 @@ export default function Header() {
 								<InputAdornment position="start">
 									<SearchIcon />
 								</InputAdornment>
-							),
+							)
 						}} />
 						<Button className="search-button" color="secondary" variant="outlined">Search</Button>
 					</div>
@@ -36,11 +36,11 @@ export default function Header() {
 							<InputAdornment position="start">
 								<SearchIcon />
 							</InputAdornment>
-						),
+						)
 					}} />
 					<Button className="search-button" color="secondary" variant="outlined">Search</Button>
 				</div>
 			</div>
 		</Toolbar>
-	</AppBar>
+	</AppBar>;
 }

@@ -8,7 +8,7 @@ import Header from "./components/common/Header/Header";
 import RentalHomePage from "./pages/RentalHomePage";
 import { appTheme } from "./theme";
 
-function App() {
+function App(): JSX.Element {
 	return (
 		<div className="App">
 			<LocalizationProvider dateAdapter={DateFnsUtils}>
