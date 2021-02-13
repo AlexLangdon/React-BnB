@@ -7,7 +7,7 @@ export const appTheme = createMuiTheme({
 			"sans-serif"
 		].join(","),
 		button: {
-			textTransform: 'none'
+			textTransform: "none"
 		}
 	},
 	palette: {
