@@ -1,4 +1,4 @@
-import { createSelector, createSlice } from "@reduxjs/toolkit";
+import { createSelector, createSlice, OutputSelector } from "@reduxjs/toolkit";
 import { RentalOption } from "models/RentalOption";
 import { RootState } from "store/root-reducer";
 
@@ -34,5 +34,16 @@ export const rentalsSelector = createSelector(
 	(state: RootState) => state.rentalsState,
 	(rentalState: RentalStoreState) => rentalState.rentals
 );
+
+export const rentalsByIdSelectorFactory = (id: string): OutputSelector<
+	RootState,
+	RentalOption | undefined,
+	(rentals: Array<RentalOption>) => RentalOption | undefined
+> => {
+	return createSelector(
+		rentalsSelector,
+		(rentals: Array<RentalOption>) => rentals.find(rental => rental.id === id)
+	);
+};
 
 export default rentalsSlice.reducer;
