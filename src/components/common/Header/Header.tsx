@@ -8,7 +8,7 @@ import "./Header.scss";
 export default function Header(): JSX.Element {
 	return <AppBar position="static">
 		<Toolbar className="toolbar d-flex">
-			<div className="flex-column flex-grow-1">
+			<div className="flex-column flex-grow-1 mx-auto col-xl-9">
 				<div className="d-flex flex-grow-1 justify-content-between mt-2 mt-md-0">
 					<Logo className="logo" />
 					<Button color="inherit" size="small" className="py-0 px-2">
