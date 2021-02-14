@@ -1,3 +1,5 @@
+import { Amenity } from "models/Amenity";
+
 export interface RentalOption {
 	id: string;
 	title: string;
@@ -8,4 +10,5 @@ export interface RentalOption {
 	shared: boolean;
 	description: string;
 	dailyPrice: number;
+	amenities: Array<Amenity>;
 }

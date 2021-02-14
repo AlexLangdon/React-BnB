@@ -16,7 +16,19 @@ const generateInitialRentals = (): Array<RentalOption> => (
 		numRooms: 1,
 		shared: false,
 		description: "Stylish third floor apartment in the heart of London",
-		dailyPrice: 100
+		dailyPrice: 100,
+		amenities: [
+			"Air Conditioning",
+			"Dishwasher",
+			"Dryer",
+			"Free Breakfast",
+			"Free Parking",
+			"Fridge Freezer",
+			"Heating",
+			"Washing Machine",
+			"Wifi",
+			"Work Area"
+		]
 	}))
 );
 
