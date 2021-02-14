@@ -1,5 +1,6 @@
 import { Button, FormGroup, TextField } from "@material-ui/core";
 import React from "react";
+import "./FormPage.scss";
 
 export default function SignUpPage(): JSX.Element {
 	return (
@@ -15,7 +16,10 @@ export default function SignUpPage(): JSX.Element {
 					</FormGroup>
 					<Button type="submit" color="primary" variant="contained" className="mt-3">Sign Up</Button>
 				</form>
-				<img className="col-md-6 col-lg-5" src="http://via.placeholder.com/400x600" alt="decoration" />
+				<div className="col-md-6 col-lg-5">
+					<h2 className="catchphrase">Locations across the world in just a few clicks</h2>
+					<img className="decoration" src="images/sign-up-image.jpg" alt="decoration" />
+				</div>
 			</div>
 		</div>
 	);
