@@ -17,14 +17,18 @@ export default function Header(): JSX.Element {
 						</Typography>
 					</Button>
 					<div className="d-none d-md-block">
-						<TextField size="small" className="search-field mx-2" placeholder="Search" variant="outlined" InputProps={{
-							startAdornment: (
-								<InputAdornment position="start">
-									<SearchIcon />
-								</InputAdornment>
-							)
-						}} />
-						<Button className="search-button" color="secondary" variant="outlined">Search</Button>
+						<TextField size="small" className="search-field mx-2" placeholder="Search"
+							variant="outlined" InputProps={{
+								startAdornment: (
+									<InputAdornment position="start">
+										<SearchIcon />
+									</InputAdornment>
+								)
+							}}
+						/>
+						<Button className="search-button" color="secondary" variant="outlined">
+							Search
+						</Button>
 					</div>
 					<div className="ml-auto header-links">
 						<Button color="inherit"><Link to="/login">Log in</Link></Button>
@@ -32,13 +36,15 @@ export default function Header(): JSX.Element {
 					</div>
 				</div>
 				<div className="d-flex d-md-none my-2">
-					<TextField size="small" className="search-field flex-grow-1 mr-2" placeholder="Search" variant="outlined" InputProps={{
-						startAdornment: (
-							<InputAdornment position="start">
-								<SearchIcon />
-							</InputAdornment>
-						)
-					}} />
+					<TextField size="small" className="search-field flex-grow-1 mr-2"
+						placeholder="Search" variant="outlined" InputProps={{
+							startAdornment: (
+								<InputAdornment position="start">
+									<SearchIcon />
+								</InputAdornment>
+							)
+						}}
+					/>
 					<Button className="search-button" color="secondary" variant="outlined">Search</Button>
 				</div>
 			</div>
