@@ -1,6 +1,6 @@
 import RentalOptionCard from "components/RentalOptionCard/RentalOptionCard";
-import { RentalOption } from "models/RentalOption";
 import React from "react";
+import { RentalOption } from "react-bnb-common";
 import { useSelector } from "react-redux";
 import { rentalsSelector } from "store/slices/rentals";
 import "./RentalHomePage.scss";

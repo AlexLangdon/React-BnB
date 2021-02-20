@@ -1,5 +1,5 @@
 import { createSelector, createSlice, OutputSelector } from "@reduxjs/toolkit";
-import { RentalOption } from "models/RentalOption";
+import { RentalOption } from "react-bnb-common";
 import { RootState } from "store/root-reducer";
 
 interface RentalStoreState {
