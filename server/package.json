@@ -1,7 +1,7 @@
 {
   "name": "react-bnb-server",
   "version": "0.1.0",
-  "description": "",
+  "description": "API server for AirBnB like booking app",
   "main": "dist/index.js",
   "scripts": {
     "start": "tsc && concurrently \"tsc -w\" \"nodemon dist/index.js\"",
