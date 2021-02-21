@@ -4,9 +4,9 @@
   "description": "API server for AirBnB like booking app",
   "main": "dist/index.js",
   "scripts": {
-	 "build": "tsc",
-	 "start": "tsc && node dist/index.js",
-    "start-dev": "tsc && concurrently \"tsc -w\" \"nodemon dist/index.js\"",
+    "build": "npm run ts-node",
+    "start": "ts-node && node dist/index.js",
+    "start-dev": "ts-node && concurrently \"ts-node -w\" \"nodemon dist/index.js\"",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint . --ext .ts,.js"
   },
@@ -30,6 +30,7 @@
   },
   "dependencies": {
     "concurrently": "^5.3.0",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "ts-node": "^9.1.1"
   }
 }
