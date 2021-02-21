@@ -1,7 +1,8 @@
 import express from "express";
+import path from "path";
 
 const app = express();
-const port = 4000;
+const port = process.env.PORT || 4000;
 app.get("/api/rentals", (_, res) => {
 	return res.json([
 		{
@@ -29,6 +30,16 @@ app.get("/api/rentals", (_, res) => {
 		}
 	]);
 });
+
+
+if (process.env.NODE_ENV === "production") {
+	const buildPath = path.join(__dirname, "../../client/build");
+	app.use(express.static(buildPath));
+	app.get("*", (_, res) => {
+		return res.sendFile(path.resolve(buildPath, "index.html"));
+	});
+}
+
 app.listen(port, () => {
 	return console.log(`server is listening on ${port}`);
 });
