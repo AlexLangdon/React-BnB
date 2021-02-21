@@ -4,7 +4,8 @@
   "description": "API server for AirBnB like booking app",
   "main": "dist/index.js",
   "scripts": {
-    "start": "tsc && concurrently \"tsc -w\" \"nodemon dist/index.js\"",
+	 "start": "tsc && node dist/index.js",
+    "start-dev": "tsc && concurrently \"tsc -w\" \"nodemon dist/index.js\"",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint . --ext .ts,.js"
   },
