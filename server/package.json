@@ -5,7 +5,7 @@
 	"main": "dist/index.js",
 	"scripts": {
 		"tsc": "tsc",
-		"build": "tsc src/index.ts",
+		"build": "tsc",
 		"start": "node dist/index.js",
 		"start-dev": "tsc && concurrently \"tsc -w\" \"nodemon dist/index.js\"",
 		"test": "echo \"Error: no test specified\" && exit 1",

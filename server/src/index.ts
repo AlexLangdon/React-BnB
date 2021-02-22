@@ -1,5 +1,5 @@
-import express from "express";
-import path from "path";
+import express = require("express");
+import path = require("path");
 
 const app = express();
 const port = process.env.PORT || 4000;
@@ -31,7 +31,7 @@ app.get("/api/rentals", (_, res) => {
 	]);
 });
 
-const buildPath = path.join(__dirname, "../client/build");
+const buildPath = path.join(__dirname, "../../client/build");
 app.use(express.static(buildPath));
 app.get("*", (_, res) => {
 	return res.sendFile(path.resolve(buildPath, "index.html"));
