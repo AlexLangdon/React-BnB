@@ -11,3 +11,9 @@ export interface RentalOption {
     dailyPrice: number;
     amenities: Array<Amenity>;
 }
+export interface User {
+    id: string;
+    username: string;
+    email: string;
+    password: string;
+}
