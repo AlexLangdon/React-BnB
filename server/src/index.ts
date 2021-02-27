@@ -31,11 +31,13 @@ app.get("/api/rentals", (_, res) => {
 	]);
 });
 
-const buildPath = path.join(__dirname, "../../client/build");
-app.use(express.static(buildPath));
-app.get("*", (_, res) => {
-	return res.sendFile(path.resolve(buildPath, "index.html"));
-});
+if (process.env.NODE_ENV === "production") {
+	const buildPath = path.join(__dirname, "../../client/build");
+	app.use(express.static(buildPath));
+	app.get("*", (_, res) => {
+		return res.sendFile(path.resolve(buildPath, "index.html"));
+	});
+}
 
 app.listen(port, () => {
 	return console.log(`server is listening on ${port}`);
