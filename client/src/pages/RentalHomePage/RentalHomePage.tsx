@@ -1,12 +1,21 @@
+import axios from "axios";
 import RentalOptionCard from "components/RentalOptionCard/RentalOptionCard";
-import React from "react";
+import React, { useEffect } from "react";
 import { RentalOption } from "react-bnb-common";
 import { useSelector } from "react-redux";
-import { rentalsSelector } from "store/slices/rentals";
+import { rentalsSelector, setRentals } from "store/slices/rentals";
+import store from "store/store";
 import "./RentalHomePage.scss";
 
 export default function RentalHomePage(): JSX.Element {
 	const rentals = useSelector(rentalsSelector);
+
+	useEffect(() => {
+		axios.get("api/rentals").then(response => {
+			console.log("response", response);
+			store.dispatch(setRentals(response.data));
+		});
+	}, []);
 
 	return (
 		<div className="rental-home-root mt-5 mx-auto px-5">

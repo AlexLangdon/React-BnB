@@ -1,4 +1,4 @@
-import { createSelector, createSlice, OutputSelector } from "@reduxjs/toolkit";
+import { createSelector, createSlice, OutputSelector, PayloadAction } from "@reduxjs/toolkit";
 import { RentalOption } from "react-bnb-common";
 import { RootState } from "store/root-reducer";
 
@@ -33,13 +33,19 @@ const generateInitialRentals = (): Array<RentalOption> => (
 );
 
 const initialState: RentalStoreState = {
-	rentals: generateInitialRentals()
+	rentals: []
 };
 
 const rentalsSlice = createSlice({
 	name: "rentalsState",
 	initialState,
-	reducers: {}
+	reducers: {
+		setRentals(state: RentalStoreState, action: PayloadAction<Array<RentalOption>>): RentalStoreState {
+			return {
+				rentals: action.payload
+			};
+		}
+	}
 });
 
 export const rentalsSelector = createSelector(
@@ -58,4 +64,7 @@ export const rentalsByIdSelectorFactory = (id: string): OutputSelector<
 	);
 };
 
+export const {
+	setRentals
+} = rentalsSlice.actions;
 export default rentalsSlice.reducer;
