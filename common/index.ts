@@ -9,7 +9,7 @@ export type Amenity = "Air Conditioning" |
 	"Wifi" |
 	"Work Area";
 
-export interface RentalOption {
+export interface Rental {
 	id: string;
 	title: string;
 	city: string;

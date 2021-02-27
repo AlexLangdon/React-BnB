@@ -1,12 +1,12 @@
 import { createSelector, createSlice, OutputSelector, PayloadAction } from "@reduxjs/toolkit";
-import { RentalOption } from "react-bnb-common";
+import { Rental } from "react-bnb-common";
 import { RootState } from "store/root-reducer";
 
 interface RentalStoreState {
-	rentals: Array<RentalOption>;
+	rentals: Array<Rental>;
 }
 
-const generateInitialRentals = (): Array<RentalOption> => (
+const generateInitialRentals = (): Array<Rental> => (
 	new Array(10).fill(null).map((_, i) => ({
 		id: i.toString(),
 		title: "Modern apartment in city center",
@@ -40,7 +40,7 @@ const rentalsSlice = createSlice({
 	name: "rentalsState",
 	initialState,
 	reducers: {
-		setRentals(state: RentalStoreState, action: PayloadAction<Array<RentalOption>>): RentalStoreState {
+		setRentals(state: RentalStoreState, action: PayloadAction<Array<Rental>>): RentalStoreState {
 			return {
 				rentals: action.payload
 			};
@@ -55,12 +55,12 @@ export const rentalsSelector = createSelector(
 
 export const rentalsByIdSelectorFactory = (id: string): OutputSelector<
 	RootState,
-	RentalOption | undefined,
-	(rentals: Array<RentalOption>) => RentalOption | undefined
+	Rental | undefined,
+	(rentals: Array<Rental>) => Rental | undefined
 > => {
 	return createSelector(
 		rentalsSelector,
-		(rentals: Array<RentalOption>) => rentals.find(rental => rental.id === id)
+		(rentals: Array<Rental>) => rentals.find(rental => rental.id === id)
 	);
 };
 

@@ -16,7 +16,7 @@ import { useSelector } from "react-redux";
 import { RouteComponentProps } from "react-router-dom";
 import { rentalsByIdSelectorFactory } from "store/slices/rentals";
 
-export default function RentalOptionDetail(props: RouteComponentProps<{ rentalId: string; }>): JSX.Element {
+export default function RentalDetail(props: RouteComponentProps<{ rentalId: string; }>): JSX.Element {
 	const { rentalId } = props.match.params;
 
 	const rental = useSelector(rentalsByIdSelectorFactory(rentalId));

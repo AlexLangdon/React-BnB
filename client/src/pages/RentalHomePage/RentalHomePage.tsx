@@ -1,7 +1,7 @@
 import axios from "axios";
-import RentalOptionCard from "components/RentalOptionCard/RentalOptionCard";
+import RentalCard from "components/RentalCard/RentalOptionCard";
 import React, { useEffect } from "react";
-import { RentalOption } from "react-bnb-common";
+import { Rental } from "react-bnb-common";
 import { useSelector } from "react-redux";
 import { rentalsSelector, setRentals } from "store/slices/rentals";
 import store from "store/store";
@@ -21,7 +21,7 @@ export default function RentalHomePage(): JSX.Element {
 		<div className="rental-home-root mt-5 mx-auto px-5">
 			<h1 className="title text-center col-sm-12 mb-4">Experience the world</h1>
 			<div className="d-flex flex-wrap justify-content-center">
-				{rentals.map((option: RentalOption) => <RentalOptionCard key={option.id} {...option} />)}
+				{rentals.map((option: Rental) => <RentalCard key={option.id} {...option} />)}
 			</div>
 		</div>
 	);

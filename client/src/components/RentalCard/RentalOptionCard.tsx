@@ -1,8 +1,8 @@
 import { Card, CardActionArea, CardContent, CardMedia, Typography } from "@material-ui/core";
 import React from "react";
-import { RentalOption } from "react-bnb-common";
+import { Rental } from "react-bnb-common";
 
-export default function RentalOptionCard(option: RentalOption): JSX.Element {
+export default function RentalCard(option: Rental): JSX.Element {
 	return (
 		<Card className="rental-option-card m-3">
 			<CardActionArea href={`/rental/${option.id}`}>
