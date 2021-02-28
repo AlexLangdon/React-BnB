@@ -1,5 +1,5 @@
 {
-	"name": "react-bnb",
+	"name": "react-bnb-client",
 	"version": "0.1.0",
 	"description": "React frontend web client for AirBnB like booking app",
 	"private": true,
@@ -17,6 +17,7 @@
 		"@types/react-dom": "^17.0.0",
 		"@types/react-redux": "^7.1.16",
 		"@types/react-router-dom": "^5.1.7",
+		"@types/redux-logger": "^3.0.8",
 		"axios": "^0.21.1",
 		"bootstrap": "^4.6.0",
 		"date-fns": "^2.16.1",
@@ -61,7 +62,6 @@
 		]
 	},
 	"devDependencies": {
-		"@types/redux-logger": "^3.0.8",
 		"@typescript-eslint/eslint-plugin": "^4.14.2",
 		"@typescript-eslint/parser": "^4.14.2",
 		"eslint": "^7.19.0",
