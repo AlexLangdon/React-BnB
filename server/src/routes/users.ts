@@ -13,7 +13,16 @@ const mockUser: User = {
 	password: "mock-password"
 };
 
-router.get("/", (_, res) => {
+router.get("/login", (_, res) => {
+	const token = jwt.sign({
+		sub: mockUser.id,
+		username: mockUser.username
+	}, JWT_SECRET, { expiresIn: "2m" });
+
+	return res.json(token);
+});
+
+router.get("/register", (_, res) => {
 	const token = jwt.sign({
 		sub: mockUser.id,
 		username: mockUser.username
