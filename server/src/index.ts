@@ -1,4 +1,5 @@
 import bodyParser from "body-parser";
+import cors from "cors";
 import express from "express";
 import mongoose from "mongoose";
 import path from "path";
@@ -20,6 +21,10 @@ mongoose.connect(config.DB_URI, {
 
 // Middleware
 app.use(bodyParser.json());
+
+// Allow CORS for local UI requests
+// Has to be declared before all route definitions
+app.use(cors({ origin: "http://localhost:3000" }));
 
 // Routes
 app.use("/api/rentals", rentalRouter);
