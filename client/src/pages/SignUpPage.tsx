@@ -13,7 +13,22 @@ export default function SignUpPage(): JSX.Element {
 	const { register, handleSubmit, errors, getValues } = useForm();
 
 	const onSubmit: SubmitHandler<SignUpFormValues> = (data: SignUpFormValues) => {
-		console.log(data);
+		const request: SignUpFormValues = {
+			username: data.username,
+			email: data.email,
+			password: data.password
+		};
+
+		const requestOptions: RequestInit = {
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify(request)
+		};
+
+		fetch("http://localhost:4000/api/users/register", requestOptions)
+			.then(response => response.json())
+			.then(json => console.log(json))
+			.catch(error => console.error(error));
 	};
 
 	return (
