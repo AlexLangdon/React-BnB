@@ -1,7 +1,8 @@
 import { Button, FormGroup, TextField } from "@material-ui/core";
-import React from "react";
+import React, { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
+import { ApiError } from "../../../common";
 import "./FormPage.scss";
 
 interface SignUpFormValues {
@@ -13,6 +14,7 @@ interface SignUpFormValues {
 export default function SignUpPage(): JSX.Element {
 	const { register, handleSubmit, errors, getValues } = useForm();
 	const history = useHistory();
+	const [apiErrors, setApiErrors] = useState<Array<ApiError>>([]);
 
 	const onSubmit: SubmitHandler<SignUpFormValues> = (data: SignUpFormValues) => {
 		const request: SignUpFormValues = {
@@ -28,10 +30,17 @@ export default function SignUpPage(): JSX.Element {
 		};
 
 		fetch("http://localhost:4000/api/users/register", requestOptions)
-			.then(() => {
-				history.push("/login");
+			.then(async resp => {
+				if(resp.ok) {
+					history.push("/login");
+				} else {
+					const respJson = await resp.json();
+					setApiErrors(respJson.errors);
+				}
 			})
-			.catch(error => console.error(error));
+			.catch(error => { 
+				console.error(error);
+			});
 	};
 
 	return (
@@ -78,6 +87,7 @@ export default function SignUpPage(): JSX.Element {
 									value === getValues("password") || "Password confirmation must match password"
 								)
 							})} />
+						{apiErrors.map(error => <div key={error.title} className="alert alert-danger">{error.detail}</div>)}
 					</FormGroup>
 					<Button type="submit" color="primary" variant="contained" className="mt-3">
 						Sign Up

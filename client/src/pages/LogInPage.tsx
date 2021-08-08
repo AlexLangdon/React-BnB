@@ -1,7 +1,8 @@
 import { Button, FormGroup, TextField } from "@material-ui/core";
-import React from "react";
+import React, { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
+import { ApiError } from "../../../common";
 import "./FormPage.scss";
 
 interface LogInFormValues {
@@ -12,6 +13,7 @@ interface LogInFormValues {
 export default function LogInPage(): JSX.Element {
 	const { register, handleSubmit, errors } = useForm();
 	const history = useHistory();
+	const [apiErrors, setApiErrors] = useState<Array<ApiError>>([]);
 
 	const onSubmit: SubmitHandler<LogInFormValues> = (data: LogInFormValues) => {
 		const requestOptions: RequestInit = {
@@ -21,10 +23,17 @@ export default function LogInPage(): JSX.Element {
 		};
 
 		fetch("http://localhost:4000/api/users/login", requestOptions)
-			.then(() => {
-				history.push("/");
+			.then(async resp => {
+				if(resp.ok) {
+					history.push("/");
+				} else {
+					const respJson = await resp.json();
+					setApiErrors(respJson.errors);
+				}
 			})
-			.catch(error => console.error(error));
+			.catch(error => {
+				console.error(error);
+			});
 	};
 
 	return (
@@ -48,6 +57,7 @@ export default function LogInPage(): JSX.Element {
 							error={!!errors.password} helperText={errors?.password?.message}
 							inputRef={register({ required: "Password is required" })} />
 					</FormGroup>
+					{apiErrors.map(error => <div key={error.title} className="alert alert-danger">{error.detail}</div>)}
 					<Button type="submit" color="primary" variant="contained" className="mt-3">
 						Log In
 					</Button>
