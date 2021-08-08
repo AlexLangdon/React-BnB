@@ -12,7 +12,16 @@ export default function LogInPage(): JSX.Element {
 	const { register, handleSubmit, errors } = useForm();
 
 	const onSubmit: SubmitHandler<LogInFormValues> = (data: LogInFormValues) => {
-		console.log(data);
+		const requestOptions: RequestInit = {
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify(data)
+		};
+
+		fetch("http://localhost:4000/api/users/login", requestOptions)
+			.then(response => response.json())
+			.then(json => console.log(json))
+			.catch(error => console.error(error));
 	};
 
 	return (
