@@ -1,34 +1,56 @@
-
 import express, { Router } from "express";
 import jwt from "jsonwebtoken";
-import { User } from "react-bnb-common";
-import { JWT_SECRET } from "../config";
+import { CreateUserRequest, LoginUserRequest } from "react-bnb-common";
+import config from "../config";
+import { UserDocument, UserModel } from "../models/user";
 
 const router: Router = express.Router();
 
-const mockUser: User = {
-	id: "mock-id",
-	username: "mock-username",
-	email: "mock-email",
-	password: "mock-password"
-};
+router.post("/login", (req, res) => {
+	const { email, password }: LoginUserRequest = req.body;
 
-router.get("/login", (_, res) => {
-	const token = jwt.sign({
-		sub: mockUser.id,
-		username: mockUser.username
-	}, JWT_SECRET, { expiresIn: "2m" });
+	UserModel.findOne({ email }, (error: any, foundUser: UserDocument) => {
+		if (error) {
+			return error;
+		}
+		
+		if(foundUser?.hasSamePassword(password)) {
+			const token = jwt.sign({
+				sub: foundUser.id,
+				username: foundUser.username
+			}, config.JWT_SECRET, { expiresIn: "10m" });
+	
+			return res.json(token);
+		}
 
-	return res.json(token);
+		return res.json({
+			title: "Invalid login",
+			detail: "Login details are incorrect"
+		});
+	});
 });
 
-router.get("/register", (_, res) => {
-	const token = jwt.sign({
-		sub: mockUser.id,
-		username: mockUser.username
-	}, JWT_SECRET, { expiresIn: "2m" });
+router.post("/register", (req, res) => {
+	const { email, password, username }: CreateUserRequest = req.body;
 
-	return res.json(token);
+	const userAdd = new UserModel({
+		username,
+		email,
+		password
+	});
+
+	userAdd.save((error) => {
+		if (error) {
+			console.error("ERROR", error);
+			return res
+				.status(422)
+				.send({error});
+		}
+
+		return res.json({status: "registered"});
+	});
+
+	
 });
 
 export default router;
