@@ -1,6 +1,7 @@
 import { Button, FormGroup, TextField } from "@material-ui/core";
 import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { useHistory } from "react-router-dom";
 import "./FormPage.scss";
 
 interface LogInFormValues {
@@ -10,6 +11,7 @@ interface LogInFormValues {
 
 export default function LogInPage(): JSX.Element {
 	const { register, handleSubmit, errors } = useForm();
+	const history = useHistory();
 
 	const onSubmit: SubmitHandler<LogInFormValues> = (data: LogInFormValues) => {
 		const requestOptions: RequestInit = {
@@ -19,8 +21,9 @@ export default function LogInPage(): JSX.Element {
 		};
 
 		fetch("http://localhost:4000/api/users/login", requestOptions)
-			.then(response => response.json())
-			.then(json => console.log(json))
+			.then(() => {
+				history.push("/");
+			})
 			.catch(error => console.error(error));
 	};
 

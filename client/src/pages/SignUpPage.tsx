@@ -1,6 +1,7 @@
 import { Button, FormGroup, TextField } from "@material-ui/core";
 import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { useHistory } from "react-router-dom";
 import "./FormPage.scss";
 
 interface SignUpFormValues {
@@ -11,6 +12,7 @@ interface SignUpFormValues {
 
 export default function SignUpPage(): JSX.Element {
 	const { register, handleSubmit, errors, getValues } = useForm();
+	const history = useHistory();
 
 	const onSubmit: SubmitHandler<SignUpFormValues> = (data: SignUpFormValues) => {
 		const request: SignUpFormValues = {
@@ -26,8 +28,9 @@ export default function SignUpPage(): JSX.Element {
 		};
 
 		fetch("http://localhost:4000/api/users/register", requestOptions)
-			.then(response => response.json())
-			.then(json => console.log(json))
+			.then(() => {
+				history.push("/login");
+			})
 			.catch(error => console.error(error));
 	};
 
