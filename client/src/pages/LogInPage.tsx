@@ -1,4 +1,5 @@
 import { Button, FormGroup, TextField } from "@material-ui/core";
+import { useAuth } from "providers/AuthProvider";
 import React, { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
@@ -14,6 +15,7 @@ export default function LogInPage(): JSX.Element {
 	const { register, handleSubmit, errors } = useForm();
 	const history = useHistory();
 	const [apiErrors, setApiErrors] = useState<Array<ApiError>>([]);
+	const auth = useAuth();
 
 	const onSubmit: SubmitHandler<LogInFormValues> = (data: LogInFormValues) => {
 		const requestOptions: RequestInit = {
@@ -24,10 +26,11 @@ export default function LogInPage(): JSX.Element {
 
 		fetch("http://localhost:4000/api/users/login", requestOptions)
 			.then(async resp => {
-				if(resp.ok) {
+				const respJson = await resp.json();
+				if (resp.ok) {
+					auth?.saveUserToken(respJson);
 					history.push("/");
 				} else {
-					const respJson = await resp.json();
 					setApiErrors(respJson.errors);
 				}
 			})
