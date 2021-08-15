@@ -28,7 +28,7 @@ export default function LogInPage(): JSX.Element {
 			.then(async resp => {
 				const respJson = await resp.json();
 				if (resp.ok) {
-					auth?.saveUserToken(respJson);
+					auth?.saveLocalUserToken(respJson);
 					history.push("/");
 				} else {
 					setApiErrors(respJson.errors);

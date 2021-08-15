@@ -4,8 +4,8 @@ import moment from "moment";
 
 interface AuthInterface {
     isAuthenticated: boolean;
-    saveUserToken: (token: string) => void;
-    removeUserToken: () => void;
+    saveLocalUserToken: (token: string) => void;
+    removeLocalUserToken: () => void;
 }
 
 const AuthContext = React.createContext<AuthInterface>({} as AuthInterface);
@@ -26,26 +26,26 @@ export function AuthProvider(props: Props): JSX.Element {
         return decodedToken && moment().isBefore(moment.unix(decodedToken.exp as number));
     };
 
-    const getUserToken = (): string => {
+    const getLocalUserToken = (): string => {
         return localStorage.getItem("bwm_user_token") ?? "";
     };
 
-    const saveUserToken = (token: string): void => {
+    const saveLocalUserToken = (token: string): void => {
         localStorage.setItem("bwm_user_token", token);
-        setAuthenticated(isLocalUserTokenValid(getUserToken()));
+        setAuthenticated(isLocalUserTokenValid(getLocalUserToken()));
     };
 
-    const removeUserToken = (): void => {
+    const removeLocalUserToken = (): void => {
         localStorage.removeItem("bwm_user_token");
-        setAuthenticated(isLocalUserTokenValid(getUserToken()));
+        setAuthenticated(isLocalUserTokenValid(getLocalUserToken()));
     };
 
     useEffect(() => {
-        setAuthenticated(isLocalUserTokenValid(getUserToken()));
+        setAuthenticated(isLocalUserTokenValid(getLocalUserToken()));
     }, []);
 
     return (
-        <AuthContext.Provider value={{isAuthenticated, saveUserToken, removeUserToken}}>
+        <AuthContext.Provider value={{isAuthenticated, saveLocalUserToken, removeLocalUserToken}}>
             {props.children}
         </AuthContext.Provider>
     );

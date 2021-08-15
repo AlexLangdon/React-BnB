@@ -10,7 +10,7 @@ export default function Header(): JSX.Element {
 	const auth = useAuth();
 
 	const logout = () => {
-		auth.removeUserToken();
+		auth.removeLocalUserToken();
 	};
 
 	return <AppBar position="static">
