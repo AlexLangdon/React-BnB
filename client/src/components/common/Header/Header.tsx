@@ -40,7 +40,7 @@ export default function Header(): JSX.Element {
 					{
 						auth?.isAuthenticated ?
 						<div className="ml-auto header-links">
-							<div className="user-name mr-sm-3">User Name</div>
+							<div className="user-name mr-sm-3">{auth.getUserName()}</div>
 							<Button color="inherit" onClick={logout}>Log out</Button>
 						</div>
 						: 

@@ -4,6 +4,7 @@ import moment from "moment";
 
 interface AuthInterface {
     isAuthenticated: boolean;
+    getUserName: () => string;
     saveLocalUserToken: (token: string) => void;
     removeLocalUserToken: () => void;
 }
@@ -40,12 +41,25 @@ export function AuthProvider(props: Props): JSX.Element {
         setAuthenticated(isLocalUserTokenValid(getLocalUserToken()));
     };
 
+    const getUserName = (): string => {
+        const token = getLocalUserToken();
+        const decodedToken = jwt.decode(token) as jwt.JwtPayload;
+        return decodedToken.username;
+    };
+
     useEffect(() => {
         setAuthenticated(isLocalUserTokenValid(getLocalUserToken()));
     }, []);
 
+    const value: AuthInterface = {
+        isAuthenticated, 
+        getUserName, 
+        saveLocalUserToken, 
+        removeLocalUserToken
+    };
+
     return (
-        <AuthContext.Provider value={{isAuthenticated, saveLocalUserToken, removeLocalUserToken}}>
+        <AuthContext.Provider value={value}>
             {props.children}
         </AuthContext.Provider>
     );
