@@ -1,5 +1,6 @@
-import { AppBar, Button, InputAdornment, TextField, Toolbar, Typography } from "@material-ui/core";
+import { AppBar, Button, InputAdornment, TextField, Toolbar, Typography, Menu, MenuItem } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
+import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import { ReactComponent as Logo } from "images/logo.svg";
 import { useAuth } from "providers/AuthProvider";
 import React from "react";
@@ -11,6 +12,16 @@ export default function Header(): JSX.Element {
 
 	const logout = () => {
 		auth.removeLocalUserToken();
+	};
+
+	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+
+	const handleManageClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+		setAnchorEl(event.currentTarget);
+	};
+  
+	const handleManageClose = () => {
+		setAnchorEl(null);
 	};
 
 	return <AppBar position="static">
@@ -39,14 +50,31 @@ export default function Header(): JSX.Element {
 					</div>
 					{
 						auth?.isAuthenticated ?
+						<>
+							<div className="ml-auto header-links">
+								<div className="user-name mr-sm-3">{auth.getUserName()}</div>
+								<Button className="mr-1" color="inherit" variant="outlined" 
+									onClick={handleManageClick} endIcon={<ArrowDropDownIcon />}>
+									Manage
+								</Button>
+								<Menu
+									anchorEl={anchorEl}
+									keepMounted
+									open={Boolean(anchorEl)}
+									onClose={handleManageClose}
+									getContentAnchorEl={null}
+									anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+									transformOrigin={{ vertical: "top", horizontal: "left" }}
+								>
+									<MenuItem onClick={handleManageClose}>New Rental</MenuItem>
+								</Menu>
+								<Button color="inherit" variant="outlined" onClick={logout}>Log out</Button>
+							</div>
+						</>
+						:
 						<div className="ml-auto header-links">
-							<div className="user-name mr-sm-3">{auth.getUserName()}</div>
-							<Button color="inherit" onClick={logout}>Log out</Button>
-						</div>
-						: 
-						<div className="ml-auto header-links">
-							<Button color="inherit"><Link to="/login">Log in</Link></Button>
-							<Button color="inherit"><Link to="/signup">Sign Up</Link></Button>
+							<Button className="mr-1 h-100" color="inherit" variant="outlined"><Link to="/login">Log in</Link></Button>
+							<Button className="h-100" color="inherit" variant="outlined"><Link to="/signup">Sign Up</Link></Button>
 						</div>
 					}
 				</div>

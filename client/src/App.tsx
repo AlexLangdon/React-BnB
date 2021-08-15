@@ -1,7 +1,6 @@
 import { MuiThemeProvider } from "@material-ui/core";
 import { LocalizationProvider } from "@material-ui/pickers";
 import DateFnsUtils from "@material-ui/pickers/adapter/date-fns";
-import "bootstrap/dist/css/bootstrap.css";
 import RentalDetail from "components/RentalDetail/RentalDetail";
 import { AuthProvider } from "providers/AuthProvider";
 import React from "react";
