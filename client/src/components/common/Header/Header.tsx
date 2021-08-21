@@ -1,5 +1,8 @@
-import { AppBar, Button, InputAdornment, TextField, Toolbar, Typography, Menu, MenuItem } from "@material-ui/core";
+import { AppBar, Button, InputAdornment, TextField, Toolbar, Typography, Menu, MenuItem, List, ListItem, ListItemText, SwipeableDrawer, IconButton, ListItemIcon } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
+import AddBoxIcon from "@material-ui/icons/AddBox";
+import MenuIcon from "@material-ui/icons/Menu";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import { ReactComponent as Logo } from "images/logo.svg";
 import { useAuth } from "providers/AuthProvider";
@@ -24,17 +27,19 @@ export default function Header(): JSX.Element {
 		setAnchorEl(null);
 	};
 
+	const [drawerOpen, setDrawerOpen] = React.useState<boolean>(false);
+
 	return <AppBar position="static">
 		<Toolbar className="toolbar d-flex">
-			<div className="flex-column flex-grow-1 mx-auto col-xl-9">
+			<div className="flex-column flex-grow-1 mx-auto col-xl-9 px-0 px-md-2">
 				<div className="d-flex flex-grow-1 justify-content-between mt-2 mt-md-0">
-					<Logo className="logo" />
+					<Logo className="logo my-auto" />
 					<Button color="inherit" size="small" className="py-0 px-2">
 						<Typography variant="h6" color="secondary" className="title">
 							<Link to="/">React BnB</Link>
 						</Typography>
 					</Button>
-					<div className="d-none d-md-block">
+					<div className="d-none d-md-block my-auto">
 						<TextField size="small" className="search-field mx-2" placeholder="Search"
 							variant="outlined" InputProps={{
 								startAdornment: (
@@ -51,7 +56,7 @@ export default function Header(): JSX.Element {
 					{
 						auth?.isAuthenticated ?
 						<>
-							<div className="ml-auto header-links">
+							<div className="ml-sm-auto header-links d-none d-lg-block">
 								<div className="user-name mr-sm-3">{auth.getUserName()}</div>
 								<Button className="mr-1" color="inherit" variant="outlined" 
 									onClick={handleManageClick} endIcon={<ArrowDropDownIcon />}>
@@ -69,6 +74,34 @@ export default function Header(): JSX.Element {
 									<MenuItem onClick={handleManageClose}><a href="/new-rental">New Rental</a></MenuItem>
 								</Menu>
 								<Button color="inherit" variant="outlined" onClick={logout}>Log out</Button>
+							</div>
+							<div className="d-block d-lg-none">
+								<IconButton onClick={() => setDrawerOpen(true)} aria-label="menu" color="primary">
+									<MenuIcon />
+								</IconButton>
+								<SwipeableDrawer
+									anchor={"right"}
+									open={drawerOpen}
+									onClose={() => setDrawerOpen(false)}
+									onOpen={() => setDrawerOpen(true)}
+								>
+									<div
+										role="presentation"
+										onClick={() => setDrawerOpen(false)}
+										onKeyDown={() => setDrawerOpen(false)}
+									>
+										<List>
+											<ListItem button key="new-rental" component="a" href="/new-rental">
+													<ListItemIcon><AddBoxIcon /></ListItemIcon>
+													<ListItemText primary="New Rental" />
+											</ListItem>
+											<ListItem button key="log-out" onClick={logout}>
+												<ListItemIcon><ExitToAppIcon /></ListItemIcon>
+												<ListItemText primary="Log Out" />
+											</ListItem>
+										</List>
+									</div>
+								</SwipeableDrawer>
 							</div>
 						</>
 						:
