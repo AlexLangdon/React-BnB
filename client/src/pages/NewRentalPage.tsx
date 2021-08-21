@@ -1,6 +1,7 @@
-import { Button, Checkbox, Chip, FormControl, FormControlLabel, FormGroup, FormHelperText, Input, InputAdornment, InputLabel, ListItemText, MenuItem, OutlinedInput, Select, TextField } from "@material-ui/core";
+import { Button, Checkbox, Chip, FormControl, FormControlLabel, FormGroup, FormHelperText, InputAdornment, InputLabel, ListItemText, MenuItem, OutlinedInput, Select, TextField } from "@material-ui/core";
 import React, { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
+import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 
 export default function NewRentalPage(): JSX.Element {
 	const { register, handleSubmit, errors, control } = useForm();
@@ -36,7 +37,8 @@ export default function NewRentalPage(): JSX.Element {
         <div className="container pt-5">
 			<div className="row justify-content-center">
 				<form onSubmit={handleSubmit(onSubmit)} className="col-md-6 col-lg-5 mb-4">
-                    <h2 className="mb-4">New Rental</h2>
+                    <Button variant="contained" startIcon={<ArrowBackIosIcon />} href="/">Back</Button>
+                    <h2 className="my-4">New Rental</h2>
                     <FormGroup>
                         <div className="my-2">
                             <InputLabel>Upload Rental Images:</InputLabel>
