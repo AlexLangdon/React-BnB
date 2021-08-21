@@ -2,6 +2,7 @@ import { MuiThemeProvider } from "@material-ui/core";
 import { LocalizationProvider } from "@material-ui/pickers";
 import DateFnsUtils from "@material-ui/pickers/adapter/date-fns";
 import RentalDetail from "components/RentalDetail/RentalDetail";
+import NewRentalPage from "pages/NewRentalPage";
 import { AuthProvider } from "providers/AuthProvider";
 import React from "react";
 import { Provider } from "react-redux";
@@ -28,6 +29,7 @@ function App(): JSX.Element {
 									<Route path="/signup" component={SignUpPage} />
 									<Route path="/rental/:rentalId" component={RentalDetail} />
 									<Route path="/login" component={LogInPage} />
+									<Route path="/new-rental" component={NewRentalPage} />
 								</Switch>
 							</AuthProvider>
 						</MuiThemeProvider>

@@ -66,14 +66,14 @@ export default function Header(): JSX.Element {
 									anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
 									transformOrigin={{ vertical: "top", horizontal: "left" }}
 								>
-									<MenuItem onClick={handleManageClose}>New Rental</MenuItem>
+									<MenuItem onClick={handleManageClose}><a href="/new-rental">New Rental</a></MenuItem>
 								</Menu>
 								<Button color="inherit" variant="outlined" onClick={logout}>Log out</Button>
 							</div>
 						</>
 						:
 						<div className="ml-auto header-links">
-							<Button className="mr-1 h-100" color="inherit" variant="outlined"><Link to="/login">Log in</Link></Button>
+							<Button className="mr-1 h-100" color="inherit" variant="outlined"><Link to="/login">Log In</Link></Button>
 							<Button className="h-100" color="inherit" variant="outlined"><Link to="/signup">Sign Up</Link></Button>
 						</div>
 					}
