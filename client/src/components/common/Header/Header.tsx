@@ -35,11 +35,14 @@ export default function Header(): JSX.Element {
 				<div className="d-flex flex-grow-1 justify-content-between mt-2 mt-md-0">
 					<Logo className="logo my-auto" />
 					<Button color="inherit" size="small" className="py-0 px-2">
-						<Typography variant="h6" color="secondary" className="title">
+						<Typography variant="h6" color="secondary" className="title d-none d-sm-block">
+							<Link to="/">React BnB</Link>
+						</Typography>
+						<Typography variant="subtitle1" color="secondary" className="title d-block d-sm-none font-500">
 							<Link to="/">React BnB</Link>
 						</Typography>
 					</Button>
-					<div className="d-none d-md-block my-auto">
+					<div className="d-none d-md-flex my-auto">
 						<TextField size="small" className="search-field mx-2" placeholder="Search"
 							variant="outlined" InputProps={{
 								startAdornment: (
@@ -106,8 +109,12 @@ export default function Header(): JSX.Element {
 						</>
 						:
 						<div className="ml-auto header-links">
-							<Button className="mr-1 h-100" color="inherit" variant="outlined"><Link to="/login">Log In</Link></Button>
-							<Button className="h-100" color="inherit" variant="outlined"><Link to="/signup">Sign Up</Link></Button>
+							<Button className="mr-1 h-100" color="inherit" size="small" variant="outlined">
+								<Link to="/login">Log In</Link>
+							</Button>
+							<Button className="h-100" color="inherit" size="small" variant="outlined">
+								<Link to="/signup">Sign Up</Link>
+							</Button>
 						</div>
 					}
 				</div>
