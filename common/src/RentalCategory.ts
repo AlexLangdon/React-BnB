@@ -1,0 +1,1 @@
+export type RentalCategory = "Room" | "Apartment" | "House";
