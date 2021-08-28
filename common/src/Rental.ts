@@ -1,8 +1,8 @@
-import { RentalCategory } from "RentalCategory";
+import { RentalCategory } from "./RentalCategory";
 import { Amenity } from "./Amenity";
 
 export interface Rental {
-	id: string;
+	_id: string;
 	title: string;
 	city: string;
 	category: RentalCategory;

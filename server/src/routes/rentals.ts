@@ -1,64 +1,35 @@
 import express, { Router } from "express";
+import { RentalModel } from "../models/rental";
+import { CreateRentalRequest } from "react-bnb-common";
 
 const router: Router = express.Router();
 
-const rentals = [
-	{
-		id: "1000",
-		title: "Modern apartment in city center",
-		city: "NYC",
-		category: "Apartment",
-		imageSrc: "http://via.placeholder.com/300x200",
-		numRooms: 1,
-		shared: false,
-		description: "Stylish third floor apartment in the heart of London",
-		dailyPrice: 100,
-		amenities: [
-			"Air Conditioning",
-			"Dishwasher",
-			"Dryer",
-			"Free Breakfast",
-			"Free Parking",
-			"Fridge Freezer",
-			"Heating",
-			"Washing Machine",
-			"Wifi",
-			"Work Area"
-		]
-	},
-	{
-		id: "1001",
-		title: "Modern apartment in city center 2",
-		city: "NYC",
-		category: "Apartment",
-		imageSrc: "http://via.placeholder.com/300x200",
-		numRooms: 1,
-		shared: false,
-		description: "Stylish third floor apartment in the heart of London",
-		dailyPrice: 100,
-		amenities: [
-			"Air Conditioning",
-			"Dishwasher",
-			"Dryer",
-			"Free Breakfast",
-			"Free Parking",
-			"Fridge Freezer",
-			"Heating",
-			"Washing Machine",
-			"Wifi",
-			"Work Area"
-		]
-	}
-];
-
-router.get("/", (_, res) => {
-	return res.json(rentals);
+router.get("/", async (_, res) => {
+	const allRentals = await RentalModel.find({});
+	return res.json(allRentals);
 });
 
-router.get("/:rentalId", (req, res) => {
+router.get("/:rentalId", async (req, res) => {
 	const { rentalId } = req.params;
+	const matchingRental = await RentalModel.findById(rentalId);
+	return res.json(matchingRental);
+});
 
-	return res.json(rentals.find(rental => rental.id == rentalId));
+router.post("/create", (req, res) => {
+	console.log("!!!", req);
+	const reqBody: CreateRentalRequest = req.body;
+	const rentalAdd = new RentalModel(reqBody);
+
+	rentalAdd.save((error) => {
+		if (error) {
+			console.error("ERROR", error);
+			return res
+				.status(422)
+				.send({error});
+		}
+
+		return res.json({status: "created"});
+	});
 });
 
 export default router;
