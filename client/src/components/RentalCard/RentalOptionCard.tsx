@@ -5,7 +5,7 @@ import { Rental } from "react-bnb-common";
 export default function RentalCard(option: Rental): JSX.Element {
 	return (
 		<Card className="rental-option-card m-3">
-			<CardActionArea href={`/rental/${option.id}`}>
+			<CardActionArea href={`/rental/${option._id}`}>
 				<CardMedia className="rental-card-image" image={option.imageSrc} />
 				<CardContent>
 					<Typography variant="subtitle2" color="textSecondary">

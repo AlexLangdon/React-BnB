@@ -2,7 +2,7 @@ import { Button, FormGroup, TextField } from "@material-ui/core";
 import React, { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
-import { ApiError } from "../../../common";
+import { ApiError } from "react-bnb-common";
 import "./FormPage.scss";
 
 interface SignUpFormValues {

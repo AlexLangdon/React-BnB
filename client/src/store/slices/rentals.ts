@@ -34,7 +34,7 @@ export const rentalsByIdSelectorFactory = (id: string): OutputSelector<
 > => {
 	return createSelector(
 		rentalsSelector,
-		(rentals: Array<Rental>) => rentals.find(rental => rental.id === id)
+		(rentals: Array<Rental>) => rentals.find(rental => rental._id === id)
 	);
 };
 
