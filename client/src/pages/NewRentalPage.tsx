@@ -2,19 +2,14 @@ import { Button, Checkbox, Chip, FormControl, FormControlLabel, FormGroup, FormH
 import React, { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
+import { Amenity, ApiError, CreateRentalRequest } from "react-bnb-common";
 
 export default function NewRentalPage(): JSX.Element {
 	const { register, handleSubmit, errors, control } = useForm();
+    const [apiErrors, setApiErrors] = useState<Array<ApiError>>([]);
 
-    const [selectedCategory, setSelectedCategory] = useState<string>("");
-    const selectCategory = (event: React.ChangeEvent<{ value: unknown; }>) => {
-        setSelectedCategory(event.target.value as string);
-    };
-
-    const [shared, setShared] = useState(false);
-
-    const [selectedAmenities, setSelectedAmenities] = useState<Array<string>>([]);
-    const amenities = [
+    const [selectedAmenities, setSelectedAmenities] = useState<Array<Amenity>>([]);
+    const amenities: Array<Amenity> = [
         "Dishwasher",
         "Dryer",
         "Free Breakfast",
@@ -26,11 +21,30 @@ export default function NewRentalPage(): JSX.Element {
         "Work Area"
     ];
     const selectAmenity = (event: React.ChangeEvent<{ value: unknown; }>) => {
-        setSelectedAmenities(event.target.value as string[]);
+        setSelectedAmenities(event.target.value as Array<Amenity>);
     };
 
-    const onSubmit = () => {
-        return "";
+    const onSubmit = (data: CreateRentalRequest) => {
+        data.amenities = selectedAmenities;
+
+        console.log(data, selectedAmenities);
+
+        const requestOptions: RequestInit = {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify(data)
+        };
+
+        fetch("http://localhost:4000/api/rentals/create", requestOptions)
+            .then(async resp => {
+                if(!resp.ok) {
+                    const respJson = await resp.json();
+                    setApiErrors(respJson.errors);
+                }
+            })
+            .catch(error => {
+                console.error(error);
+            });
     };
 
     return (
@@ -40,15 +54,30 @@ export default function NewRentalPage(): JSX.Element {
                     <Button variant="contained" startIcon={<ArrowBackIosIcon />} href="/">Back</Button>
                     <h2 className="my-4">New Rental</h2>
                     <FormGroup>
+                        <TextField 
+                            id="imageSrc"
+                            name="imageSrc"
+                            type="text"
+                            variant="outlined"
+                            defaultValue="http://via.placeholder.com/300x200"
+                            inputRef={register()}
+                        />
                         <div className="my-2">
                             <InputLabel>Upload Rental Images:</InputLabel>
-                            <FormControl error={!!errors.rentalImages}>
+                            {/* TO BE AMENDED TO A FILE UPLOAD INPUT */}
+                            {/* <TextField 
+                                id="imageSource"
+                                name="imageSource"
+                                type="text"
+                                defaultValue="http://via.placeholder.com/300x200"
+                            ></TextField> */}
+                            {/* <FormControl error={!!errors.rentalImages}>
                                 <Controller
-                                    id="rentalImages"
-                                    name="rentalImages"
+                                    id="imageSrc"
+                                    name="imageSrc"
                                     control={control}
                                     rules={{required: "Images required"}}
-                                    defaultValue=""
+                                    defaultValue="http://via.placeholder.com/300x200"
                                     as={
                                         <TextField
                                             type="file"
@@ -64,7 +93,7 @@ export default function NewRentalPage(): JSX.Element {
                                 <FormHelperText className="Mui-error MuiFormHelperText-contained">
                                     {errors.rentalImages && errors.rentalImages.message}
                                 </FormHelperText>
-                            </FormControl>
+                            </FormControl> */}
                         </div>
                         <TextField 
                             id="title" 
@@ -112,8 +141,6 @@ export default function NewRentalPage(): JSX.Element {
                                     <TextField
                                         select
                                         variant="outlined"
-                                        value={selectedCategory}
-                                        onChange={selectCategory}
                                         label="Category"
                                     >
                                         <MenuItem value={"Room"}>Room</MenuItem>
@@ -127,15 +154,15 @@ export default function NewRentalPage(): JSX.Element {
                             </FormHelperText>
                         </FormControl>
                         <TextField 
-                            id="rooms" 
-                            name="rooms" 
+                            id="numRooms" 
+                            name="numRooms" 
                             label="Number of Rooms" 
                             type="number"
                             inputProps={{min: 0, max: 10}}
                             variant="outlined" 
                             className="my-2"
-                            error={!!errors.rooms}
-                            helperText={errors?.rooms?.message}
+                            error={!!errors.numRooms}
+                            helperText={errors?.numRooms?.message}
                             inputRef={
                                 register({
                                     required: "Number of rooms is required"
@@ -163,22 +190,23 @@ export default function NewRentalPage(): JSX.Element {
                                 })
                             }
                         />
-                        <FormControlLabel
-                            control={
-                                <Checkbox
-                                    checked={shared}
-                                    onChange={(event) => setShared(event.target.checked as boolean)}
-                                    name="Shared"
-                                    color="primary"
+                        <Controller
+                            id="shared"
+                            name="shared"
+                            control={control}
+                            defaultValue={false}
+                            render={(field) =>
+                                <FormControlLabel
+                                    control={<Checkbox {...field} />}
+                                    label="Shared"
+                                    className="my-2"
                                 />
                             }
-                            label="Shared"
-                            className="my-2"
                         />
                        <TextField
-                            id="price"
+                            id="dailyPrice"
                             type="number"
-                            name="price"
+                            name="dailyPrice"
                             label="Daily Price"
                             variant="outlined"
                             className="my-2"
@@ -224,6 +252,11 @@ export default function NewRentalPage(): JSX.Element {
                             </Select>
                         </FormControl>
                     </FormGroup>
+                    {apiErrors.map(error => (
+                        <div key={error.title} className="alert alert-damage">
+                            {error.detail}
+                        </div>
+                    ))}
                     <Button type="submit" color="primary" variant="contained" className="my-2">
                         Submit
                     </Button>
