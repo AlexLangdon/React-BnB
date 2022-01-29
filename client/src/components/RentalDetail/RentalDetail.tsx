@@ -59,7 +59,7 @@ export default function RentalDetail(props: RouteComponentProps<{ rentalId: stri
 				<p>{rentalInput.description}</p>
 			</div>
 			<hr />
-			<h4>Assets</h4>
+			<h4>Amenities</h4>
 			<div>
 				{rentalInput.amenities.map((amenity: Amenity) =>
 					<div key={amenity} className="d-inline-block m-3">
