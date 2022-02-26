@@ -14,6 +14,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Amenity, Rental } from "react-bnb-common";
 import { RouteComponentProps } from "react-router-dom";
+import "./RentalDetail.scss";
 
 export default function RentalDetail(props: RouteComponentProps<{ rentalId: string; }>): JSX.Element {
 	const { rentalId } = props.match.params;
@@ -45,29 +46,37 @@ export default function RentalDetail(props: RouteComponentProps<{ rentalId: stri
 	};
 
 	const renderRentalDetails = (rentalInput: Rental | null) => (
-		rentalInput ? <>
-			<div className="row justify-content-center">
-				<img src={rentalInput.image.url} className="col-md-6 my-3" alt="rental" />
-				<img src="http://via.placeholder.com/350x250" className="col-md-6 my-3" alt="location" />
+		rentalInput ? <div className="container">
+			<div className="row">
+				<div className="d-flex col-md-6 my-3 justify-content-center">
+					<img src={rentalInput.image.url} alt="rental" />
+				</div>
+				<div className="d-flex col-md-6 my-3 justify-content-center">
+					<img src="http://via.placeholder.com/350x250" alt="location" />
+				</div>
 			</div>
-			<Typography variant="subtitle2" color="textSecondary">
-				{rentalInput.shared ? "Shared" : "Private"} {rentalInput.category} - {rentalInput.city}
-			</Typography>
-			<h4>{rentalInput.title}</h4>
-			<div className="m-3">
-				<p>{rentalInput.numRooms} {rentalInput.numRooms > 1 ? "Rooms" : "Room"}</p>
-				<p>{rentalInput.description}</p>
-			</div>
-			<hr />
-			<h4>Amenities</h4>
-			<div>
-				{rentalInput.amenities.map((amenity: Amenity) =>
-					<div key={amenity} className="d-inline-block m-3">
-						{getAmenityIcon(amenity)} {amenity}
+			<div className="row">
+				<div className="col-md-8">
+					<Typography variant="subtitle2" color="textSecondary">
+						{rentalInput.shared ? "Shared" : "Private"} {rentalInput.category} - {rentalInput.city}
+					</Typography>
+					<h4>{rentalInput.title}</h4>
+					<div className="m-3">
+						<p>{rentalInput.numRooms} {rentalInput.numRooms > 1 ? "Rooms" : "Room"}</p>
+						<p>{rentalInput.description}</p>
 					</div>
-				)}
+					<hr />
+					<h4>Amenities</h4>
+					<div>
+						{rentalInput.amenities.map((amenity: Amenity) =>
+							<div key={amenity} className="d-inline-block m-3">
+								{getAmenityIcon(amenity)} {amenity}
+							</div>
+						)}
+					</div>
+				</div>
 			</div>
-		</> : <h1 className="pt-2">Rental Not Found</h1>
+		</div> : <h1 className="pt-2">Rental Not Found</h1>
 	);
 
 	return <div className="container pt-4">
