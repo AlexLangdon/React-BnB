@@ -84,7 +84,7 @@ export default function NewRentalPage(): JSX.Element {
                                     as={({ onChange }) => (
                                         <OutlinedInput
                                             inputProps={{
-                                                accept:"image/*"
+                                                accept: "image/jpeg, image/png, image/jpg"
                                             }}
                                             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                                                 onChange(e.target.files?.item(0));
