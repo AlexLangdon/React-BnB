@@ -3,12 +3,17 @@ import React, { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import { Amenity, ApiError, CreateRentalRequest } from "react-bnb-common";
+import { uploadImage } from "store/slices/rentals";
+
+interface NewRentalFormData extends Omit<CreateRentalRequest, "image" | "amenities"> {
+    image: File;
+}
 
 export default function NewRentalPage(): JSX.Element {
 	const { register, handleSubmit, errors, control } = useForm();
     const [apiErrors, setApiErrors] = useState<Array<ApiError>>([]);
-
     const [selectedAmenities, setSelectedAmenities] = useState<Array<Amenity>>([]);
+
     const amenities: Array<Amenity> = [
         "Dishwasher",
         "Dryer",
@@ -24,27 +29,36 @@ export default function NewRentalPage(): JSX.Element {
         setSelectedAmenities(event.target.value as Array<Amenity>);
     };
 
-    const onSubmit = (data: CreateRentalRequest) => {
-        data.amenities = selectedAmenities;
-
+    const onSubmit = (data: NewRentalFormData) => {
         console.log(data, selectedAmenities);
 
-        const requestOptions: RequestInit = {
-            method: "POST",
-            headers: {"Content-Type": "application/json"},
-            body: JSON.stringify(data)
-        };
+        uploadImage(data.image).then((imageUploadResp) => {
+            const createRentalRequest: CreateRentalRequest = {
+                ...data,
+                amenities,
+                image: imageUploadResp
+            };
+            
+            const requestOptions: RequestInit = {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify(createRentalRequest)
+            };
 
-        fetch("http://localhost:4000/api/rentals/create", requestOptions)
-            .then(async resp => {
-                if(!resp.ok) {
-                    const respJson = await resp.json();
-                    setApiErrors(respJson.errors);
-                }
-            })
-            .catch(error => {
-                console.error(error);
-            });
+            fetch("http://localhost:4000/api/rentals/create", requestOptions)
+                .then(async resp => {
+                    if(!resp.ok) {
+                        const respJson = await resp.json();
+                        setApiErrors(respJson.errors);
+                    }
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+            }
+        ).catch(error => {
+            console.error(error);
+        });
     };
 
     return (
@@ -54,46 +68,31 @@ export default function NewRentalPage(): JSX.Element {
                     <Button variant="contained" startIcon={<ArrowBackIosIcon />} href="/">Back</Button>
                     <h2 className="my-4">New Rental</h2>
                     <FormGroup>
-                        <TextField 
-                            id="imageSrc"
-                            name="imageSrc"
-                            type="text"
-                            variant="outlined"
-                            defaultValue="http://via.placeholder.com/300x200"
-                            inputRef={register()}
-                        />
                         <div className="my-2">
-                            <InputLabel>Upload Rental Images:</InputLabel>
-                            {/* TO BE AMENDED TO A FILE UPLOAD INPUT */}
-                            {/* <TextField 
-                                id="imageSource"
-                                name="imageSource"
-                                type="text"
-                                defaultValue="http://via.placeholder.com/300x200"
-                            ></TextField> */}
-                            {/* <FormControl error={!!errors.rentalImages}>
+                            <InputLabel htmlFor="image">Upload Rental Image:</InputLabel>
+                            <FormControl className="d-flex w-100" error={!!errors.image}>
                                 <Controller
-                                    id="imageSrc"
-                                    name="imageSrc"
+                                    id="image"
+                                    name="image"
                                     control={control}
-                                    rules={{required: "Images required"}}
-                                    defaultValue="http://via.placeholder.com/300x200"
-                                    as={
-                                        <TextField
-                                            type="file"
-                                            variant="outlined"
-                                            error={!!errors.rentalImages}
+                                    error={!!errors.image}
+                                    rules={{ required: "Image is required" }}
+                                    as={({ onChange }) => (
+                                        <OutlinedInput
                                             inputProps={{
-                                                accept:"image/*",
-                                                multiple: true
+                                                accept:"image/*"
                                             }}
+                                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                                                onChange(e.target.files?.item(0));
+                                            }}
+                                            type="file"
                                         />
-                                    }>
-                                </Controller>
+                                    )}
+                                />
                                 <FormHelperText className="Mui-error MuiFormHelperText-contained">
-                                    {errors.rentalImages && errors.rentalImages.message}
+                                    {errors.image && errors.image.message}
                                 </FormHelperText>
-                            </FormControl> */}
+                            </FormControl>
                         </div>
                         <TextField 
                             id="title" 
@@ -205,9 +204,9 @@ export default function NewRentalPage(): JSX.Element {
                         />
                        <TextField
                             id="dailyPrice"
-                            type="number"
                             name="dailyPrice"
                             label="Daily Price"
+                            type="number"
                             variant="outlined"
                             className="my-2"
                             InputProps={{
@@ -216,8 +215,8 @@ export default function NewRentalPage(): JSX.Element {
                                 )
                             }}
                             inputProps={{min: 0.01, step: 0.01}}
-                            error={!!errors.price}
-                            helperText={errors?.price?.message}
+                            error={!!errors.dailyPrice}
+                            helperText={errors?.dailyPrice?.message}
                             inputRef={
                                 register({
                                     required: "Daily price is required"
@@ -237,13 +236,13 @@ export default function NewRentalPage(): JSX.Element {
                                 input={<OutlinedInput label="Amenities" name="amenities-input" />}
                                 renderValue={(selected) => (
                                     <div>
-                                        {(selected as string[]).map((value) => (
+                                        {(selected as string[])?.map((value) => (
                                             <Chip key={value} label={value} />
                                         ))}
                                     </div>
                                 )}
                             >
-                            {amenities.map((amenity) => (
+                            {amenities?.map((amenity) => (
                                 <MenuItem key={amenity} value={amenity}>
                                     <Checkbox checked={selectedAmenities.includes(amenity)} />
                                     <ListItemText primary={amenity} />
