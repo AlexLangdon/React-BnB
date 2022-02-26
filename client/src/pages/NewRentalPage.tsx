@@ -4,6 +4,7 @@ import { Controller, useForm } from "react-hook-form";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import { Amenity, ApiError, CreateRentalRequest } from "react-bnb-common";
 import { uploadImage } from "store/slices/rentals";
+import { useHistory } from "react-router-dom";
 
 interface NewRentalFormData extends Omit<CreateRentalRequest, "image" | "amenities"> {
     image: File;
@@ -13,6 +14,7 @@ export default function NewRentalPage(): JSX.Element {
 	const { register, handleSubmit, errors, control } = useForm();
     const [apiErrors, setApiErrors] = useState<Array<ApiError>>([]);
     const [selectedAmenities, setSelectedAmenities] = useState<Array<Amenity>>([]);
+    const history = useHistory();
 
     const amenities: Array<Amenity> = [
         "Dishwasher",
@@ -47,7 +49,9 @@ export default function NewRentalPage(): JSX.Element {
 
             fetch("http://localhost:4000/api/rentals/create", requestOptions)
                 .then(async resp => {
-                    if(!resp.ok) {
+                    if(resp.ok) {
+                        history.push("/");
+                    } else {
                         const respJson = await resp.json();
                         setApiErrors(respJson.errors);
                     }
