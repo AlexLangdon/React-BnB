@@ -47,7 +47,7 @@ export default function RentalDetail(props: RouteComponentProps<{ rentalId: stri
 	const renderRentalDetails = (rentalInput: Rental | null) => (
 		rentalInput ? <>
 			<div className="row justify-content-center">
-				<img src="http://via.placeholder.com/350x250" className="col-md-6 my-3" alt="rental" />
+				<img src={rentalInput.image.url} className="col-md-6 my-3" alt="rental" />
 				<img src="http://via.placeholder.com/350x250" className="col-md-6 my-3" alt="location" />
 			</div>
 			<Typography variant="subtitle2" color="textSecondary">
