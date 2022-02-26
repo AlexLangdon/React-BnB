@@ -1,4 +1,4 @@
-import express, { Router } from "express";
+import express, { Request, Router, Response } from "express";
 import { CloudinaryImageModel } from "../models/cloudinary-image";
 import cloudUpload from "../services/cloudinary";
 import datauri from "../services/dataUri";
@@ -7,15 +7,15 @@ import upload from "../services/multer";
 const router: Router = express.Router();
 const singleUpload = upload.single("image");
 
-const singleUploadCtrl = (req: any, res: any, next: () => void) => {
-    singleUpload(req, res, (error: any) => {
+const singleUploadCtrl = (req: Request, res: Response, next: () => void) => {
+    singleUpload(req, res, (error) => {
         if(error) {
             return res
                 .status(400)
                 .send({
                     errors: [
                         {
-                            title: "Error",
+                            title: "Upload Error",
                             detail: error.message
                         }
                     ]

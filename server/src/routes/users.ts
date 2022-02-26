@@ -1,5 +1,6 @@
 import express, { Router } from "express";
 import jwt from "jsonwebtoken";
+import { CallbackError } from "mongoose";
 import { CreateUserRequest, LoginUserRequest } from "react-bnb-common";
 import config from "../config";
 import { UserDocument, UserModel } from "../models/user";
@@ -9,7 +10,7 @@ const router: Router = express.Router();
 router.post("/login", (req, res) => {
 	const { email, password }: LoginUserRequest = req.body;
 
-	return UserModel.findOne({email}, (error: any, foundUser: UserDocument) => {
+	return UserModel.findOne({email}, (error: CallbackError, foundUser: UserDocument) => {
 		if (error) {
 			return error;
 		}
@@ -78,7 +79,7 @@ router.post("/register", (req, res) => {
 			});
 	}
 
-	return UserModel.findOne({email}, (error: any, foundUser: UserDocument) => {
+	return UserModel.findOne({email}, (error: CallbackError, foundUser: UserDocument) => {
 		if (error) {
 			return error;
 		}
