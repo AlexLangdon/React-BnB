@@ -1,12 +1,13 @@
 import { RentalCategory } from "./RentalCategory";
 import { Amenity } from "./Amenity";
+import { CloudinaryImage } from "./CloudinaryImage";
 
 export interface Rental {
 	_id: string;
 	title: string;
 	city: string;
 	category: RentalCategory;
-	imageSrc: string;
+	image: CloudinaryImage;
 	numRooms: number;
 	shared: boolean;
 	description: string;

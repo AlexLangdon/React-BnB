@@ -1,12 +1,13 @@
 import { Document, Schema } from "mongoose";
 import mongoose from "mongoose";
 import { RentalCategory, Amenity } from "react-bnb-common";
+import { CloudinaryImage } from "./cloudinary-image";
 
 interface Rental {
 	title: string;
 	city: string;
 	category: RentalCategory;
-	imageSrc: string;
+	image: CloudinaryImage;
 	numRooms: number;
 	shared: boolean;
 	description: string;
@@ -31,9 +32,9 @@ export const rentalSchema = new Schema<RentalDocument>({
 		type: String,
 		required: "Category is required"
 	},
-	imageSrc: {
-		type: String,
-		required: "Image is required"
+	image: {
+		type: Schema.Types.ObjectId,
+		ref: "CloudinaryImage"
 	},
 	numRooms: {
 		type: Number,

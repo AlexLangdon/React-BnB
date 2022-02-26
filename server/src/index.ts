@@ -3,6 +3,7 @@ import cors from "cors";
 import express from "express";
 import mongoose from "mongoose";
 import path from "path";
+import imageUpload from "./routes/image-upload";
 import config from "./config";
 import rentalRouter from "./routes/rentals";
 import userRouter from "./routes/users";
@@ -21,6 +22,7 @@ mongoose.connect(config.DB_URI, {
 
 // Middleware
 app.use(bodyParser.json());
+app.use(express.static("public"));
 
 // Allow CORS for local UI requests
 // Has to be declared before all route definitions
@@ -29,6 +31,7 @@ app.use(cors({ origin: "http://localhost:3000" }));
 // Routes
 app.use("/api/rentals", rentalRouter);
 app.use("/api/users", userRouter);
+app.use("/api/image-upload", imageUpload);
 
 // Has to be declared last due to the wildcard get
 if (process.env.NODE_ENV === "production") {
