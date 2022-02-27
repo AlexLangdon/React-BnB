@@ -49,7 +49,7 @@ export default function RentalDetail(props: RouteComponentProps<{ rentalId: stri
 		rentalInput ? <div className="container">
 			<div className="row">
 				<div className="d-flex col-md-6 my-3 justify-content-center">
-					<img src={rentalInput.image.url} alt="rental" />
+					<img className="rental-image" src={rentalInput.image.url} alt="rental" />
 				</div>
 				<div className="d-flex col-md-6 my-3 justify-content-center">
 					<img src="http://via.placeholder.com/350x250" alt="location" />
