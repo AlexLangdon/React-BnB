@@ -8,7 +8,7 @@ const router: Router = express.Router();
 const singleUpload = upload.single("image");
 
 const singleUploadCtrl = (req: Request, res: Response, next: () => void) => {
-    singleUpload(req, res, (error) => {
+    singleUpload(req, res, (error: any) => {
         if(error) {
             return res
                 .status(400)
@@ -23,6 +23,7 @@ const singleUploadCtrl = (req: Request, res: Response, next: () => void) => {
         }
 
         next();
+        return res.status(200);
     });
 };
 

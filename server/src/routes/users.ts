@@ -79,7 +79,7 @@ router.post("/register", (req, res) => {
 			});
 	}
 
-	return UserModel.findOne({email}, (error: CallbackError, foundUser: UserDocument) => {
+	return UserModel.findOne({email}, async (error: CallbackError, foundUser: UserDocument) => {
 		if (error) {
 			return error;
 		}
@@ -103,16 +103,16 @@ router.post("/register", (req, res) => {
 			password
 		});
 
-		userAdd.save((error) => {
-			if (error) {
-				console.error("ERROR", error);
-				return res
-					.status(422)
-					.send({error});
-			}
-	
+
+		try {
+			await userAdd.save();
 			return res.json({status: "registered"});
-		});
+		} catch(saveError) {
+			console.error("ERROR SAVING", error);
+			return res
+				.status(422)
+				.send({saveError});
+		}		
 	});
 });
 
