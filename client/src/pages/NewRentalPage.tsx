@@ -215,7 +215,7 @@ export default function NewRentalPage(): JSX.Element {
                             className="my-2"
                             InputProps={{
                                 startAdornment: (
-                                    <InputAdornment position="start">$</InputAdornment>
+                                    <InputAdornment position="start">£</InputAdornment>
                                 )
                             }}
                             inputProps={{min: 0.01, step: 0.01}}
