@@ -29,7 +29,8 @@ export default function RentalHomePage(props: RouteComponentProps<{ location: st
 		<div className="rental-home-root mt-5 mx-auto px-5">
 			<h1 className="title text-center col-sm-12 mb-4">{title}</h1>
 			<div className="d-flex flex-wrap justify-content-center">
-				{rentals.map((option: Rental) => <RentalCard key={option._id} {...option} />)}
+				{rentals.length ? rentals.map((option: Rental) => <RentalCard key={option._id} {...option} />)
+				: <h2>No matching rentals found</h2>}
 			</div>
 		</div>
 	);

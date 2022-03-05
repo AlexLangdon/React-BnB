@@ -7,7 +7,7 @@ import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import { ReactComponent as Logo } from "images/logo.svg";
 import { useAuth } from "providers/AuthProvider";
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import "./Header.scss";
 
 export default function Header(): JSX.Element {
@@ -29,6 +29,12 @@ export default function Header(): JSX.Element {
 
 	const [drawerOpen, setDrawerOpen] = React.useState<boolean>(false);
 
+	const history = useHistory();
+	const [locationSearch, setLocationSearch] = React.useState("");
+	const handleSearch = () => {
+		history.push(`/rentals/${locationSearch}`);
+	};
+	
 	return <AppBar position="static">
 		<Toolbar className="toolbar d-flex">
 			<div className="flex-column flex-grow-1 mx-auto col-xl-9 px-0 px-md-2">
@@ -51,8 +57,9 @@ export default function Header(): JSX.Element {
 									</InputAdornment>
 								)
 							}}
+							onChange={(e) => setLocationSearch(e.target.value)}
 						/>
-						<Button className="search-button" color="secondary" variant="outlined">
+						<Button className="search-button" color="secondary" variant="outlined" onClick={handleSearch}>
 							Search
 						</Button>
 					</div>
@@ -127,8 +134,11 @@ export default function Header(): JSX.Element {
 								</InputAdornment>
 							)
 						}}
+						onChange={(e) => setLocationSearch(e.target.value)}
 					/>
-					<Button className="search-button" color="secondary" variant="outlined">Search</Button>
+					<Button className="search-button" color="secondary" variant="outlined" onClick={handleSearch}>
+						Search
+					</Button>
 				</div>
 			</div>
 		</Toolbar>
