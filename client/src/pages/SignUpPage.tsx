@@ -4,6 +4,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
 import { ApiError } from "react-bnb-common";
 import "./FormPage.scss";
+import axios from "axios";
 
 interface SignUpFormValues {
 	username: string;
@@ -23,23 +24,17 @@ export default function SignUpPage(): JSX.Element {
 			password: data.password
 		};
 
-		const requestOptions: RequestInit = {
-			method: "POST",
-			headers: { "Content-Type": "application/json" },
-			body: JSON.stringify(request)
-		};
-
-		fetch("http://localhost:4000/api/users/register", requestOptions)
-			.then(async resp => {
-				if(resp.ok) {
-					history.push("/login");
-				} else {
-					const respJson = await resp.json();
-					setApiErrors(respJson.errors);
-				}
+		axios.post("/api/users/register", request)
+			.then(resp => {
+				history.push("/login");
 			})
 			.catch(error => { 
-				console.error(error);
+				console.error(error.response);
+				const errors = error.response?.data.errors ?? [{
+					title: error.name, 
+					detail: error.message
+				}];
+				setApiErrors(errors);
 			});
 	};
 

@@ -23,10 +23,15 @@ router.post("/create", (req, res) => {
 	const rentalData: CreateRentalRequest = req.body;
 	RentalModel.create(rentalData, (error, createdRental) => {
 		if(error) {
-			console.error("ERROR", error);
+			console.error("/create ERROR", error);
 			return res
 				.status(422)
-				.send({error});
+				.send({
+					errors: [{
+						title: error.name,
+						detail: error.message
+					}]
+				});
 		}
 
 		return res.json(createdRental);

@@ -5,6 +5,7 @@ import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import { Amenity, ApiError, CreateRentalRequest } from "react-bnb-common";
 import { uploadImage } from "store/slices/rentals";
 import { useHistory } from "react-router-dom";
+import axios from "axios";
 
 interface NewRentalFormData extends Omit<CreateRentalRequest, "image" | "amenities"> {
     image: File;
@@ -40,24 +41,18 @@ export default function NewRentalPage(): JSX.Element {
                 amenities,
                 image: imageUploadResp
             };
-            
-            const requestOptions: RequestInit = {
-                method: "POST",
-                headers: {"Content-Type": "application/json"},
-                body: JSON.stringify(createRentalRequest)
-            };
 
-            fetch("http://localhost:4000/api/rentals/create", requestOptions)
-                .then(async resp => {
-                    if(resp.ok) {
-                        history.push("/");
-                    } else {
-                        const respJson = await resp.json();
-                        setApiErrors(respJson.errors);
-                    }
+            axios.post("/api/rentals/create", createRentalRequest)
+                .then(resp => {
+                    history.push("/");
                 })
                 .catch(error => {
                     console.error(error);
+                    const errors = error.response?.data.errors ?? [{
+                        title: error.name, 
+                        detail: error.message
+                    }];
+                    setApiErrors(errors);
                 });
             }
         ).catch(error => {
@@ -256,7 +251,7 @@ export default function NewRentalPage(): JSX.Element {
                         </FormControl>
                     </FormGroup>
                     {apiErrors.map(error => (
-                        <div key={error.title} className="alert alert-damage">
+                        <div key={error.title} className="alert alert-danger">
                             {error.detail}
                         </div>
                     ))}

@@ -1,4 +1,5 @@
 import { Button, FormGroup, TextField } from "@material-ui/core";
+import axios from "axios";
 import { useAuth } from "providers/AuthProvider";
 import React, { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -18,24 +19,18 @@ export default function LogInPage(): JSX.Element {
 	const auth = useAuth();
 
 	const onSubmit: SubmitHandler<LogInFormValues> = (data: LogInFormValues) => {
-		const requestOptions: RequestInit = {
-			method: "POST",
-			headers: { "Content-Type": "application/json" },
-			body: JSON.stringify(data)
-		};
-
-		fetch("http://localhost:4000/api/users/login", requestOptions)
-			.then(async resp => {
-				const respJson = await resp.json();
-				if (resp.ok) {
-					auth?.saveLocalUserToken(respJson);
-					history.push("/");
-				} else {
-					setApiErrors(respJson.errors);
-				}
+		axios.post("/api/users/login", data)
+			.then(resp => {
+				auth?.saveLocalUserToken(resp.data);
+				history.push("/");
 			})
 			.catch(error => {
 				console.error(error);
+				const errors = error.response?.data.errors ?? [{
+					title: error.name, 
+					detail: error.message
+				}];
+				setApiErrors(errors);
 			});
 	};
 
