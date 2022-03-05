@@ -26,7 +26,8 @@ export const rentalSchema = new Schema<RentalDocument>({
 	},
 	city: {
 		type: String,
-		required: "City is required"
+		required: "City is required",
+		lowercase: true
 	},
 	category: {
 		type: String,

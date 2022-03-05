@@ -8,7 +8,7 @@ export default function RentalCard(rental: Rental): JSX.Element {
 			<CardActionArea href={`/rental/${rental._id}`}>
 				<CardMedia className="rental-card-image" image={rental.image.url} />
 				<CardContent>
-					<Typography variant="subtitle2" color="textSecondary">
+					<Typography className="text-capitalize" variant="subtitle2" color="textSecondary">
 						{rental.shared ? "Shared" : "Private"} {rental.category} - {rental.numRooms} {
 							rental.numRooms > 1 ? "Rooms" : "Room"
 						} - {rental.city}

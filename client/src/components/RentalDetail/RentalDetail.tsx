@@ -57,7 +57,7 @@ export default function RentalDetail(props: RouteComponentProps<{ rentalId: stri
 			</div>
 			<div className="row">
 				<div className="col-md-8">
-					<Typography variant="subtitle2" color="textSecondary">
+					<Typography className="text-capitalize" variant="subtitle2" color="textSecondary">
 						{rentalInput.shared ? "Shared" : "Private"} {rentalInput.category} - {rentalInput.city}
 					</Typography>
 					<h4>{rentalInput.title}</h4>
