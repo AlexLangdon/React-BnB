@@ -4,9 +4,12 @@ import { CreateRentalRequest } from "react-bnb-common";
 
 const router: Router = express.Router();
 
-router.get("/", async (_, res) => {
+router.get("/", async (req, res) => {
+	const { city } = req.query;
+	const query = typeof city === "string" ? { city } : {};
+
 	const allRentals = await RentalModel
-		.find({})
+		.find(query)
 		.populate("image");
 	return res.json(allRentals);
 });
