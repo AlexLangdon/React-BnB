@@ -26,6 +26,7 @@ function App(): JSX.Element {
 								<Header />
 								<Switch>
 									<Route path="/" exact component={RentalHomePage} />
+									<Route path="/rentals/:location" component={RentalHomePage} />
 									<Route path="/signup" component={SignUpPage} />
 									<Route path="/rental/:rentalId" component={RentalDetail} />
 									<Route path="/login" component={LogInPage} />
