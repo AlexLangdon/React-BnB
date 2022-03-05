@@ -16,5 +16,6 @@ An "Airbnb-like" online marketplace for room and property rentals created using 
 - Fully responsive design for mobile/desktop support.
 - User registration and Login.
 - Rental creation and image cloud storage.
+- Rental location search.
 - React Hooks for more a modern functional component style.
-- Work in progress - Search, Geolocation and Bookings.
+- Work in progress - Geolocation and Booking management.
