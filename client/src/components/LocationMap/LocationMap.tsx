@@ -2,18 +2,35 @@ import React, { useEffect } from "react";
 import tt from "@tomtom-international/web-sdk-maps";
 import "./LocationMap.scss";
 
-export default function LocationMap(): JSX.Element {
+interface LocationMapProps {
+    location: string;
+}
+
+export default function LocationMap({location}: LocationMapProps): JSX.Element {
     useEffect(() => {
+        const apiKey = process.env.REACT_APP_TOM_TOM_KEY as string;
         const map = tt.map({
-            key: process.env.REACT_APP_TOM_TOM_KEY as string,
+            key: apiKey,
             container: "rental-location-map",
-            zoom: 13
+            zoom: 13,
+            maxZoom: 15
         });
         map.addControl(new tt.NavigationControl());
-        map.setCenter([-0.118092, 51.5072]);
-        new tt.Marker({})
-            .setLngLat([-0.118092, 51.5072])
-            .addTo(map);
+
+        fetch(`https://api.tomtom.com/search/2/geocode/${location}.JSON?key=${apiKey}`)
+            .then(resp => resp.json())
+            .then(json => {
+                const position = json.results[0].position;            
+                map.setCenter(position);
+
+                const markerElem = document.createElement("div");
+                markerElem.className = "rental-location-marker";
+                new tt.Marker({
+                    element: markerElem
+                })
+                .setLngLat(position)
+                .addTo(map);
+            });     
     }, []);
 
     return <div id="rental-location-map" />;

@@ -20,7 +20,7 @@ import "./RentalDetail.scss";
 export default function RentalDetail(props: RouteComponentProps<{ rentalId: string; }>): JSX.Element {
 	const { rentalId } = props.match.params;
 	const [isLoading, setIsLoading] = useState(true);
-	const [rental, setRental] = useState(null);
+	const [rental, setRental] = useState<Rental | null>(null);
 
 	useEffect(() => {
 		axios.get(`/api/rentals/${rentalId}`).then(resp => {
@@ -53,7 +53,7 @@ export default function RentalDetail(props: RouteComponentProps<{ rentalId: stri
 					<img className="rental-image" src={rentalInput.image.url} alt="rental" />
 				</div>
 				<div className="d-flex col-md-6 my-3 justify-content-center rental-map">
-					<LocationMap></LocationMap>
+					<LocationMap location={rentalInput.city}></LocationMap>
 				</div>
 			</div>
 			<div className="row">
