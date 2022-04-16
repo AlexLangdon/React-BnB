@@ -12,6 +12,7 @@
 		"@testing-library/jest-dom": "^5.11.4",
 		"@testing-library/react": "^11.1.0",
 		"@testing-library/user-event": "^12.1.10",
+		"@tomtom-international/web-sdk-maps": "^6.18.0",
 		"@types/jsonwebtoken": "^8.5.4",
 		"@types/node": "^14.14.22",
 		"@types/react": "^17.0.0",

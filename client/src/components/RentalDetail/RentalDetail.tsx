@@ -11,6 +11,7 @@ import LocalParkingIcon from "@material-ui/icons/LocalParking";
 import WavesIcon from "@material-ui/icons/Waves";
 import WifiIcon from "@material-ui/icons/Wifi";
 import axios from "axios";
+import LocationMap from "components/LocationMap/LocationMap";
 import React, { useEffect, useState } from "react";
 import { Amenity, Rental } from "react-bnb-common";
 import { RouteComponentProps } from "react-router-dom";
@@ -51,8 +52,8 @@ export default function RentalDetail(props: RouteComponentProps<{ rentalId: stri
 				<div className="d-flex col-md-6 my-3 justify-content-center">
 					<img className="rental-image" src={rentalInput.image.url} alt="rental" />
 				</div>
-				<div className="d-flex col-md-6 my-3 justify-content-center">
-					<img src="http://via.placeholder.com/350x250" alt="location" />
+				<div className="d-flex col-md-6 my-3 justify-content-center rental-map">
+					<LocationMap></LocationMap>
 				</div>
 			</div>
 			<div className="row">
