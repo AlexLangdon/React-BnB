@@ -1,3 +1,11 @@
+# react-bnb-client
+
+Note that for local development a ".env" file should be added to the root of this client directory with the following environment variables declared:
+
+```
+REACT_APP_TOM_TOM_KEY=tom_tom_sdk_api_key
+```
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

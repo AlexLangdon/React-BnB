@@ -5,7 +5,7 @@ import "./LocationMap.scss";
 export default function LocationMap(): JSX.Element {
     useEffect(() => {
         const map = tt.map({
-            key: "",
+            key: process.env.REACT_APP_TOM_TOM_KEY as string,
             container: "rental-location-map",
             zoom: 13
         });
