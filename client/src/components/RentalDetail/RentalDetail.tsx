@@ -11,6 +11,7 @@ import LocalParkingIcon from "@material-ui/icons/LocalParking";
 import WavesIcon from "@material-ui/icons/Waves";
 import WifiIcon from "@material-ui/icons/Wifi";
 import axios from "axios";
+import BookingForm from "components/BookingForm/BookingForm";
 import LocationMap from "components/LocationMap/LocationMap";
 import React, { useEffect, useState } from "react";
 import { Amenity, Rental } from "react-bnb-common";
@@ -75,6 +76,9 @@ export default function RentalDetail(props: RouteComponentProps<{ rentalId: stri
 							</div>
 						)}
 					</div>
+				</div>
+				<div className="col-md-4">
+					<BookingForm {...rentalInput} />
 				</div>
 			</div>
 		</div> : <h1 className="pt-2">Rental Not Found</h1>
