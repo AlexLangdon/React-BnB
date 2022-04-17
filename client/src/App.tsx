@@ -4,6 +4,7 @@ import DateFnsUtils from "@material-ui/pickers/adapter/date-fns";
 import RentalDetail from "components/RentalDetail/RentalDetail";
 import NewRentalPage from "pages/NewRentalPage";
 import { AuthProvider } from "providers/AuthProvider";
+import MapLocationCacheProvider from "providers/MapLocationCacheProvider";
 import React from "react";
 import { Provider } from "react-redux";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
@@ -19,23 +20,25 @@ function App(): JSX.Element {
 	return (
 		<div className="App">
 			<Provider store={store}>
-				<BrowserRouter>
-					<LocalizationProvider dateAdapter={DateFnsUtils}>
-						<MuiThemeProvider theme={appTheme}>
-							<AuthProvider>
-								<Header />
-								<Switch>
-									<Route path="/" exact component={RentalHomePage} />
-									<Route path="/rentals/:location?" component={RentalHomePage} />
-									<Route path="/signup" component={SignUpPage} />
-									<Route path="/rental/:rentalId" component={RentalDetail} />
-									<Route path="/login" component={LogInPage} />
-									<Route path="/new-rental" component={NewRentalPage} />
-								</Switch>
-							</AuthProvider>
-						</MuiThemeProvider>
-					</LocalizationProvider>
-				</BrowserRouter>
+					<BrowserRouter>
+						<LocalizationProvider dateAdapter={DateFnsUtils}>
+							<MuiThemeProvider theme={appTheme}>
+								<AuthProvider>
+									<MapLocationCacheProvider>
+										<Header />
+										<Switch>
+											<Route path="/" exact component={RentalHomePage} />
+											<Route path="/rentals/:location?" component={RentalHomePage} />
+											<Route path="/signup" component={SignUpPage} />
+											<Route path="/rental/:rentalId" component={RentalDetail} />
+											<Route path="/login" component={LogInPage} />
+											<Route path="/new-rental" component={NewRentalPage} />
+										</Switch>
+									</MapLocationCacheProvider>
+								</AuthProvider>
+							</MuiThemeProvider>
+						</LocalizationProvider>
+					</BrowserRouter>
 			</Provider>
 		</div>
 	);

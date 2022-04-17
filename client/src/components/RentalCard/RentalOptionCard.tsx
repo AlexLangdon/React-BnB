@@ -1,11 +1,12 @@
 import { Card, CardActionArea, CardContent, CardMedia, Typography } from "@material-ui/core";
 import React from "react";
 import { Rental } from "react-bnb-common";
+import { Link } from "react-router-dom";
 
 export default function RentalCard(rental: Rental): JSX.Element {
 	return (
 		<Card className="rental-option-card m-3">
-			<CardActionArea href={`/rental/${rental._id}`}>
+			<CardActionArea component={Link} to={`/rental/${rental._id}`}>
 				<CardMedia className="rental-card-image" image={rental.image.url} />
 				<CardContent>
 					<Typography className="text-capitalize" variant="subtitle2" color="textSecondary">

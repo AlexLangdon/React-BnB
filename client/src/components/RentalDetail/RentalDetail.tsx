@@ -14,7 +14,7 @@ import axios from "axios";
 import LocationMap from "components/LocationMap/LocationMap";
 import React, { useEffect, useState } from "react";
 import { Amenity, Rental } from "react-bnb-common";
-import { RouteComponentProps } from "react-router-dom";
+import { Link, RouteComponentProps } from "react-router-dom";
 import "./RentalDetail.scss";
 
 export default function RentalDetail(props: RouteComponentProps<{ rentalId: string; }>): JSX.Element {
@@ -81,7 +81,11 @@ export default function RentalDetail(props: RouteComponentProps<{ rentalId: stri
 	);
 
 	return <div className="container pt-4">
-		<Button variant="contained" startIcon={<ArrowBackIosIcon />} href="/">Back</Button>
+		<Button variant="contained" 
+			startIcon={<ArrowBackIosIcon />} 
+			component={Link} to="/">
+			Back
+		</Button>
 		{isLoading ? <h1 className="pt-2">Loading</h1> : renderRentalDetails(rental)}
 	</div>;
 }
