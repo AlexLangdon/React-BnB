@@ -5,10 +5,19 @@ interface MapLocationCacheProviderProps {
     children: React.ReactNode;
 }
 
-const MapContext = createContext<any>({});
+interface MapContextInterface {
+    cacheLocation: (location: string, position: tt.LngLatLike) => void;
+    getCachedLocation: (location: string) => tt.LngLatLike | undefined;
+}
 
-export const useMapContext = () => {
-    return useContext(MapContext);
+const MapContext = createContext<MapContextInterface | null>(null);
+
+export const useMapLocationCacheContext = () => {
+    const context = useContext(MapContext);
+    if(!context) {
+        throw new Error("ERROR: Cannot create context for MapLocationCacheProvider");
+    }
+    return context;
 };
 
 export default function MapLocationCacheProvider({children}: MapLocationCacheProviderProps) {
@@ -22,7 +31,7 @@ export default function MapLocationCacheProvider({children}: MapLocationCachePro
         return cache.current.get(location);
     };
 
-    const mapContextApi = {
+    const mapContextApi: MapContextInterface = {
         cacheLocation,
         getCachedLocation
     };

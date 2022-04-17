@@ -1,14 +1,14 @@
 import React, { useEffect } from "react";
 import tt from "@tomtom-international/web-sdk-maps";
 import "./LocationMap.scss";
-import { useMapContext } from "providers/MapLocationCacheProvider";
+import { useMapLocationCacheContext } from "providers/MapLocationCacheProvider";
 
 interface LocationMapProps {
     location: string;
 }
 
 export default function LocationMap({location}: LocationMapProps): JSX.Element {
-    const {cacheLocation, getCachedLocation} = useMapContext();
+    const {cacheLocation, getCachedLocation} = useMapLocationCacheContext();
 
     const addPopupMessage = (map: tt.Map, message: string) => {
         new tt.Popup({className: "rental-map-popup", closeButton: false, closeOnClick: false})
@@ -57,7 +57,6 @@ export default function LocationMap({location}: LocationMapProps): JSX.Element {
         requestPosition(location, apiKey)
             .then((position) => {
                 setAndCenterMarker(map, position);
-
             })
             .catch((error) => {
                 addPopupMessage(map, error);
