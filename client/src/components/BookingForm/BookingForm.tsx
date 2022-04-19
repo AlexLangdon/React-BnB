@@ -1,14 +1,38 @@
-import { TextField, Box, Modal } from "@material-ui/core";
+import { TextField, Modal, Box } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import { DateRangePicker, RangeInput } from "@material-ui/pickers";
-import React, { useState } from "react";
+import moment from "moment";
+import React, { useMemo, useState } from "react";
 import { Rental } from "react-bnb-common";
 
 export default function BookingForm(rental: Rental): JSX.Element {
-    const [bookingDateRange, setBookingDateRange] = useState<RangeInput<string>>([Date.now(), Date.now() + 10000000]);
+    const dateNow = Date.now();
+    const defaultEndDate = moment(dateNow).add(5, "days").toDate();
+    const [bookingDateRange, setBookingDateRange] = useState<RangeInput<string>>([dateNow, defaultEndDate]);
     const [guests, setGuests] = useState(1);
     const [showConfirmModal, setConfirmModalShown] = useState(false);
+
+    const style = {
+        position: "absolute",
+        top: "50%",
+        left: "50%",
+        transform: "translate(-50%, -50%)",
+        width: "400px",
+        bgcolor: "background.paper",
+        border: "2px solid #000",
+        boxShadow: 24,
+        p: 4
+    };
+
+    const days = useMemo(
+        () => {
+            const start = moment(bookingDateRange[0]);
+            const end = moment(bookingDateRange[1]);
+            return Math.ceil(moment.duration(end.diff(start)).asDays());
+        },
+        [bookingDateRange]
+    );
 
     return <div className="border rounded p-3">
         <form>
@@ -53,13 +77,16 @@ export default function BookingForm(rental: Rental): JSX.Element {
             <Modal open={showConfirmModal}
                 onClose={() => setConfirmModalShown(false)}
                 >
-                <div>
+                <Box css={style}>
                     <p>Guests: <em>{guests}</em></p>
+                    <p>Days: <em>{days}</em></p>
                     <p>Price: <em>${rental.dailyPrice}</em></p>
                     <p>Do you confirm your booking for selected days?</p>
-                    <button>Confirm</button>
-                    <button>Cancel</button>
-                </div>
+                    <Button variant="contained" className="mr-2" color="secondary" 
+                        onClick={() => setConfirmModalShown(false)}>Confirm</Button>
+                    <Button variant="contained" 
+                        onClick={() => setConfirmModalShown(false)}>Cancel</Button>
+                </Box>
             </Modal>
         </form>
     </div>;
