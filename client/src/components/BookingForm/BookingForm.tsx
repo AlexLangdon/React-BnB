@@ -1,4 +1,4 @@
-import { TextField, Box } from "@material-ui/core";
+import { TextField, Box, Modal } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import { DateRangePicker, RangeInput } from "@material-ui/pickers";
@@ -8,6 +8,7 @@ import { Rental } from "react-bnb-common";
 export default function BookingForm(rental: Rental): JSX.Element {
     const [bookingDateRange, setBookingDateRange] = useState<RangeInput<string>>([Date.now(), Date.now() + 10000000]);
     const [guests, setGuests] = useState(1);
+    const [showConfirmModal, setConfirmModalShown] = useState(false);
 
     return <div className="border rounded p-3">
         <form>
@@ -27,7 +28,6 @@ export default function BookingForm(rental: Rental): JSX.Element {
                     )}
                     inputFormat="dd/MM/yyyy" 
                     onChange={(v) => {
-                        console.log("!!!!", v);
                         setBookingDateRange(v);
                     }}
                     value={bookingDateRange} />
@@ -46,9 +46,21 @@ export default function BookingForm(rental: Rental): JSX.Element {
             <Button variant="contained" 
                 color="secondary" 
                 className="mt-2 form-control"
+                onClick={() => setConfirmModalShown(true)}
             >
                 <b>Reserve your place now</b>
             </Button>
+            <Modal open={showConfirmModal}
+                onClose={() => setConfirmModalShown(false)}
+                >
+                <div>
+                    <p>Guests: <em>{guests}</em></p>
+                    <p>Price: <em>${rental.dailyPrice}</em></p>
+                    <p>Do you confirm your booking for selected days?</p>
+                    <button>Confirm</button>
+                    <button>Cancel</button>
+                </div>
+            </Modal>
         </form>
     </div>;
 }
