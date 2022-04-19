@@ -78,14 +78,22 @@ export default function BookingForm(rental: Rental): JSX.Element {
                 onClose={() => setConfirmModalShown(false)}
                 >
                 <Box css={style}>
-                    <p>Guests: <em>{guests}</em></p>
-                    <p>Days: <em>{days}</em></p>
-                    <p>Price: <em>${rental.dailyPrice}</em></p>
-                    <p>Do you confirm your booking for selected days?</p>
-                    <Button variant="contained" className="mr-2" color="secondary" 
-                        onClick={() => setConfirmModalShown(false)}>Confirm</Button>
-                    <Button variant="contained" 
-                        onClick={() => setConfirmModalShown(false)}>Cancel</Button>
+                    <p>
+                        <Typography variant="h5" className="text-capitalize">{rental.category} in {rental.city}</Typography>
+                        {moment(bookingDateRange[0]).format("Do MMMM YYYY")} to {moment(bookingDateRange[1]).format("Do MMMM YYYY")}
+                    </p>
+                    <p>Duration: <b>{days}</b> days</p>
+                    <p>Price: <b>£{rental.dailyPrice}</b> per day</p>
+                    <p>Guests: <b>{guests}</b></p>
+                    <p>Total Price: <b>£{days * rental.dailyPrice}</b></p>
+                    <p>Do you confirm your booking for the selected days?</p>
+                    <hr />
+                    <div>
+                        <Button variant="contained" className="mr-2" color="secondary" 
+                            onClick={() => setConfirmModalShown(false)}>Confirm</Button>
+                        <Button variant="contained" 
+                            onClick={() => setConfirmModalShown(false)}>Cancel</Button>
+                    </div>
                 </Box>
             </Modal>
         </form>
