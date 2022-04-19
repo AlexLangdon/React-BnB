@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import tt from "@tomtom-international/web-sdk-maps";
 import "./LocationMap.scss";
 import { useMapLocationCacheContext } from "providers/MapLocationCacheProvider";
@@ -29,20 +29,20 @@ export default function LocationMap({location}: LocationMapProps): JSX.Element {
         .addTo(map);
     };
 
-    const requestPosition = async (location: string, apiKey: string) => {
+    const requestPosition = useCallback(async (location: string, apiKey: string) => {
         return getCachedLocation(location) ??
             fetch(`https://api.tomtom.com/search/2/geocode/${location}.JSON?key=${apiKey}`)
                 .then(resp => resp.json())
                 .then(json => {
                     if(!json?.results.length) {
-                        throw "Location not found!";
+                        throw new Error("Location not found!");
                     }
 
                     const position = json.results[0].position;
                     cacheLocation(location, position);
                     return position;
                 });
-    };
+    }, [cacheLocation, getCachedLocation]);
 
     useEffect(() => {
         const apiKey = process.env.REACT_APP_TOM_TOM_KEY as string;
@@ -61,7 +61,7 @@ export default function LocationMap({location}: LocationMapProps): JSX.Element {
             .catch((error) => {
                 addPopupMessage(map, error);
             });
-    }, []);
+    }, [location, requestPosition]);
 
     return <div id="rental-location-map" />;
 }
