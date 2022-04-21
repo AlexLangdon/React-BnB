@@ -1,19 +1,23 @@
-import { TextField, Modal, Box } from "@material-ui/core";
+import { Box, MenuItem, Modal, TextField } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import { DateRangePicker, RangeInput } from "@material-ui/pickers";
+import { ParsableDate } from "@material-ui/pickers/constants/prop-types";
 import moment from "moment";
 import React, { useMemo, useState } from "react";
 import { Rental } from "react-bnb-common";
 
 export default function BookingForm(rental: Rental): JSX.Element {
     const dateNow = Date.now();
-    const defaultEndDate = moment(dateNow).add(5, "days").toDate();
-    const [bookingDateRange, setBookingDateRange] = useState<RangeInput<string>>([dateNow, defaultEndDate]);
+    const defaultStartDate = moment(dateNow).add(7, "days").toDate();
+    const defaultEndDate = moment(dateNow).add(10, "days").toDate();
+    const [bookingDateRange, setBookingDateRange] = useState<RangeInput<string>>([defaultStartDate, defaultEndDate]);
+    const [bookingDateRangeError, setBookingDateRangeError] = useState<unknown | null>(null);
     const [guests, setGuests] = useState(1);
+    const guestOptions = Array.from(Array(8)).map((_, i) => i + 1);
     const [showConfirmModal, setConfirmModalShown] = useState(false);
 
-    const style = {
+    const modalStyle = {
         position: "absolute",
         top: "50%",
         left: "50%",
@@ -25,7 +29,7 @@ export default function BookingForm(rental: Rental): JSX.Element {
         p: 4
     };
 
-    const days = useMemo(
+    const numDaysSelected = useMemo(
         () => {
             const start = moment(bookingDateRange[0]);
             const end = moment(bookingDateRange[1]);
@@ -34,8 +38,22 @@ export default function BookingForm(rental: Rental): JSX.Element {
         [bookingDateRange]
     );
 
+    const isFormValid = useMemo(
+        () => Boolean(bookingDateRange[0]) && Boolean(bookingDateRange[1]) && !bookingDateRangeError, 
+        [bookingDateRange, bookingDateRangeError]
+    );
+
+    function onSubmit(e: any) {
+        e.preventDefault();
+        console.log(e);
+    }
+
+    function formatDateString(date: ParsableDate<string>): string {
+        return moment(date).format("Do MMMM YYYY");
+    }
+
     return <div className="border rounded p-3">
-        <form>
+        <form onSubmit={onSubmit}>
             <span>
                 <Typography variant="h5" className="d-inline-block">£{rental.dailyPrice}</Typography> per night
             </span>
@@ -43,49 +61,66 @@ export default function BookingForm(rental: Rental): JSX.Element {
             <div className="form-group">
                 <label htmlFor="dates">Dates:</label>
                 <DateRangePicker
-                    renderInput={(startProps, endProps) => (
-                        <React.Fragment>
+                    renderInput={(startProps, endProps) => {
+                        startProps.required = true;
+                        return <React.Fragment>
                             <TextField {...startProps} />
                             <Box className="mx-1"> to </Box>
                             <TextField {...endProps} />
-                        </React.Fragment>
-                    )}
-                    inputFormat="dd/MM/yyyy" 
-                    onChange={(v) => {
-                        setBookingDateRange(v);
+                        </React.Fragment>;
                     }}
-                    value={bookingDateRange} />
+                    InputProps={{
+                        required: true
+                    }}
+                    inputFormat="dd/MM/yyyy"
+                    onChange={(dateRange) => {
+                        setBookingDateRange(dateRange);
+                    }}
+                    onError={(e) => {
+                        setBookingDateRangeError(e[0] || e[1]);
+                    }}
+                    value={bookingDateRange}
+                    disablePast />
             </div>
             <div className="form-group">
                 <label htmlFor="guests">Guests:</label>
-                <input id="guests" 
-                    type="number" 
-                    value={guests} 
-                    onChange={(e) => setGuests(e.currentTarget.valueAsNumber)} 
-                    min="1" 
-                    max="8" 
+                <TextField id="guests"
+                    type="select"
+                    select
+                    value={guests}
+                    variant="outlined"
+                    onChange={(e) => {
+                        setGuests(parseInt(e.target.value));
+                    }}
                     className="form-control"
-                />
+                    required
+                >
+                    {guestOptions.map((option) => (
+                        <MenuItem key={option} value={option}>{option}</MenuItem>
+                    ))}
+                </TextField>
             </div>
-            <Button variant="contained" 
+            <Button variant="contained"
+                type="submit" 
                 color="secondary" 
-                className="mt-2 form-control"
+                className="mt-2 form-control font-weight-bold"
+                disabled={!isFormValid}
                 onClick={() => setConfirmModalShown(true)}
             >
-                <b>Reserve your place now</b>
+                Reserve your place now
             </Button>
             <Modal open={showConfirmModal}
                 onClose={() => setConfirmModalShown(false)}
                 >
-                <Box css={style}>
+                <Box css={modalStyle}>
                     <p>
                         <Typography variant="h5" className="text-capitalize">{rental.category} in {rental.city}</Typography>
-                        {moment(bookingDateRange[0]).format("Do MMMM YYYY")} to {moment(bookingDateRange[1]).format("Do MMMM YYYY")}
+                        {formatDateString(bookingDateRange[0])} to {formatDateString(bookingDateRange[1])}
                     </p>
-                    <p>Duration: <b>{days}</b> days</p>
+                    <p>Duration: <b>{numDaysSelected}</b> days</p>
                     <p>Price: <b>£{rental.dailyPrice}</b> per day</p>
                     <p>Guests: <b>{guests}</b></p>
-                    <p>Total Price: <b>£{days * rental.dailyPrice}</b></p>
+                    <p>Total Price: <b>£{numDaysSelected * rental.dailyPrice}</b></p>
                     <p>Do you confirm your booking for the selected days?</p>
                     <hr />
                     <div>
