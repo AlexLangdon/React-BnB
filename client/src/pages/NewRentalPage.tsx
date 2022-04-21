@@ -33,8 +33,6 @@ export default function NewRentalPage(): JSX.Element {
     };
 
     const onSubmit = (data: NewRentalFormData) => {
-        console.log(data, selectedAmenities);
-
         uploadImage(data.image).then((imageUploadResp) => {
             const createRentalRequest: CreateRentalRequest = {
                 ...data,
