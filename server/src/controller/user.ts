@@ -21,7 +21,7 @@ export const allowOnlyAuthUser: RequestHandler = (req, res, next) => {
         return notAuthorized(res); 
     }
 
-    UserModel.findById(decodedToken.sub, (error: CallbackError, foundUser: UserDocument) => {
+    return UserModel.findById(decodedToken.sub, (error: CallbackError, foundUser: UserDocument) => {
         if(error) {
             return res.status(500);
         }

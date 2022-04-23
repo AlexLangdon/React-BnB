@@ -1,7 +1,19 @@
-import { Schema } from "mongoose";
+import { Document, Schema } from "mongoose";
 import mongoose from "mongoose";
 
-const bookingSchema = new Schema({
+interface Booking {
+    rentalId: string;
+    startAt: Date;
+    endAt: Date;
+    totalCost: number;
+    guests: number;
+    userId: string;
+    createdAt: Date;
+}
+
+export interface BookingDocument extends Booking, Document {}
+
+const bookingSchema = new Schema<BookingDocument>({
     rentalId: { type: Schema.Types.ObjectId, ref: "Rental", required: true },
     startAt: { type: Date, required: "Starting date is required" },
     endAt: { type: Date, required: "Ending date is required" },

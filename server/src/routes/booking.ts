@@ -1,15 +1,16 @@
 import { allowOnlyAuthUser } from "../controller/user";
 import express, { Router } from "express";
 import { Booking } from "react-bnb-common";
-import { BookingModel } from "../models/booking";
+import { BookingDocument, BookingModel } from "../models/booking";
 import { UserDocument } from "models/user";
+import moment from "moment";
 
 const router: Router = express.Router();
 
 router.post("/create", allowOnlyAuthUser, async (req, res) => {
     const bookingData: Booking = req.body;
 
-    if(!isBookingValid(bookingData)) {
+    if(!(await isBookingValid(bookingData))) {
         return res
             .status(400)
             .send({
@@ -37,9 +38,20 @@ router.post("/create", allowOnlyAuthUser, async (req, res) => {
     }
 });
 
-function isBookingValid(booking: Booking): boolean {
-    console.log(booking);
-    return true;
+async function isBookingValid(booking: Booking): Promise<boolean> {
+    const bookingsForRental = await BookingModel.find({rentalId: booking.rentalId});
+
+    const bookingStart = moment(booking.startAt);
+    const bookingEnd = moment(booking.endAt);
+
+    return bookingsForRental.every((otherBooking: BookingDocument) => {
+        const otherBookingStart = moment(otherBooking.startAt);
+        const otherBookingEnd = moment(otherBooking.endAt);
+
+        // No date overlaps allowed
+        return !bookingStart.isBetween(otherBookingStart, otherBookingEnd, undefined, "[]") &&
+            !bookingEnd.isBetween(otherBookingStart, otherBookingEnd, undefined, "[]");
+    });
 }
 
 export default router;
