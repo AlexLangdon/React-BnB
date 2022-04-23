@@ -6,3 +6,4 @@ export * from "./src/User";
 export * from "./src/ApiError";
 export * from "./src/CreateRentalRequest";
 export * from "./src/RentalCategory";
+export * from "./src/Booking";

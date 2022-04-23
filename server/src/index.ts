@@ -7,6 +7,7 @@ import imageUpload from "./routes/image-upload";
 import config from "./config";
 import rentalRouter from "./routes/rentals";
 import userRouter from "./routes/users";
+import bookings from "./routes/booking";
 
 const app = express();
 const port = process.env.PORT || 4000;
@@ -32,6 +33,7 @@ app.use(cors({ origin: "http://localhost:3000" }));
 app.use("/api/rentals", rentalRouter);
 app.use("/api/users", userRouter);
 app.use("/api/image-upload", imageUpload);
+app.use("/api/bookings", bookings);
 
 // Has to be declared last due to the wildcard get
 if (process.env.NODE_ENV === "production") {
