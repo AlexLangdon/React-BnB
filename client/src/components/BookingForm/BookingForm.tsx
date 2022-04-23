@@ -4,7 +4,8 @@ import Typography from "@material-ui/core/Typography";
 import { DateRangePicker, RangeInput } from "@material-ui/pickers";
 import { ParsableDate } from "@material-ui/pickers/constants/prop-types";
 import moment from "moment";
-import React, { useMemo, useState } from "react";
+import { createBooking } from "providers/BookingService";
+import React, { FormEvent, useMemo, useState } from "react";
 import { Rental } from "react-bnb-common";
 
 export default function BookingForm(rental: Rental): JSX.Element {
@@ -43,9 +44,15 @@ export default function BookingForm(rental: Rental): JSX.Element {
         [bookingDateRange, bookingDateRangeError]
     );
 
-    function onSubmit(e: any) {
+    function onSubmit(e: FormEvent): void {
         e.preventDefault();
-        console.log(e);
+        createBooking({
+            rentalId: rental._id,
+            startAt: moment(bookingDateRange[0]).toDate(),
+            endAt: moment(bookingDateRange[1]).toDate(),
+            totalCost: numDaysSelected * rental.dailyPrice,
+            guests
+        });
     }
 
     function formatDateString(date: ParsableDate<string>): string {
@@ -101,7 +108,6 @@ export default function BookingForm(rental: Rental): JSX.Element {
                 </TextField>
             </div>
             <Button variant="contained"
-                type="submit" 
                 color="secondary" 
                 className="mt-2 form-control font-weight-bold"
                 disabled={!isFormValid}
@@ -125,7 +131,10 @@ export default function BookingForm(rental: Rental): JSX.Element {
                     <hr />
                     <div>
                         <Button variant="contained" className="mr-2" color="secondary" 
-                            onClick={() => setConfirmModalShown(false)}>Confirm</Button>
+                            onClick={(e) => {
+                                onSubmit(e);
+                                setConfirmModalShown(false);
+                            }}>Confirm</Button>
                         <Button variant="contained" 
                             onClick={() => setConfirmModalShown(false)}>Cancel</Button>
                     </div>
