@@ -1,63 +1,12 @@
-import express, { RequestHandler, Response, Router } from "express";
-import { BookingModel } from "../models/booking";
+import { allowOnlyAuthUser } from "../controller/user";
+import express, { Router } from "express";
 import { Booking } from "react-bnb-common";
-import config from "../config";
-import jwt from "jsonwebtoken";
-import { UserDocument, UserModel } from "../models/user";
-import { CallbackError } from "mongoose";
+import { BookingModel } from "../models/booking";
+import { UserDocument } from "models/user";
 
 const router: Router = express.Router();
 
-interface JwtUserPayload {
-    sub: string;
-    username: string;
-}
-
-const onlyAuthUser: RequestHandler = (req, res, next) => {
-    const authHeader = req.headers.authorization;
-
-    if (!authHeader) {
-        return notAuthorized(res);
-    }
-
-    const decodedToken = extractHeaderToken(authHeader);
-    if (!decodedToken) { 
-        return notAuthorized(res); 
-    }
-
-    UserModel.findById(decodedToken.sub, (error: CallbackError, foundUser: UserDocument) => {
-        if(error) {
-            // return res.mongoError(error);
-            return res.status(500);
-        }
-
-        if (foundUser) {
-            res.locals.user = foundUser;
-            next();
-            return;
-        } else {
-            return notAuthorized(res);
-        }
-    });
-};
-
-function extractHeaderToken(authHeader: string) {
-    try {
-        const token = authHeader.split(" ")[1];
-        return jwt.verify(token, config.JWT_SECRET) as JwtUserPayload;
-    } catch(error) {
-        return null;
-    }
-  }
-
-function notAuthorized(res: Response) {
-    return res
-        .status(401)
-        .send({errors: 
-          [{title: "Not Authorized!", detail: "You need to log in to get an access!"}]});
-}
-
-router.post("/create", onlyAuthUser, async (req, res) => {
+router.post("/create", allowOnlyAuthUser, async (req, res) => {
     const bookingData: Booking = req.body;
 
     if(!isBookingValid(bookingData)) {
@@ -74,10 +23,10 @@ router.post("/create", onlyAuthUser, async (req, res) => {
     }
 
     try {
-        const foundUser = res.locals.user;
+        const foundUser: UserDocument = res.locals.user;
         const booking = new BookingModel({
             ...bookingData,
-            user: foundUser
+            userId: foundUser._id
         });
         const savedBooking = await booking.save();
         return res.json(savedBooking);
