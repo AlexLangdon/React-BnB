@@ -119,10 +119,9 @@ export default function BookingForm(rental: Rental): JSX.Element {
                 onClose={() => setConfirmModalShown(false)}
                 >
                 <Box css={modalStyle}>
-                    <p>
-                        <Typography variant="h5" className="text-capitalize">{rental.category} in {rental.city}</Typography>
-                        {formatDateString(bookingDateRange[0])} to {formatDateString(bookingDateRange[1])}
-                    </p>
+                    <Typography variant="h5" className="text-capitalize">{rental.category} in {rental.city}</Typography>
+                    <p>{formatDateString(bookingDateRange[0])} to {formatDateString(bookingDateRange[1])}</p>
+                    <hr />
                     <p>Duration: <b>{numDaysSelected}</b> days</p>
                     <p>Price: <b>£{rental.dailyPrice}</b> per day</p>
                     <p>Guests: <b>{guests}</b></p>
