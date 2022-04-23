@@ -4,9 +4,9 @@ import Typography from "@material-ui/core/Typography";
 import { DateRangePicker, RangeInput } from "@material-ui/pickers";
 import { ParsableDate } from "@material-ui/pickers/constants/prop-types";
 import moment from "moment";
-import { createBooking } from "providers/BookingService";
-import React, { FormEvent, useMemo, useState } from "react";
-import { Rental } from "react-bnb-common";
+import { createBooking, getBookingsForRental } from "providers/BookingService";
+import React, { FormEvent, useEffect, useMemo, useState } from "react";
+import { Booking, Rental } from "react-bnb-common";
 
 export default function BookingForm(rental: Rental): JSX.Element {
     const dateNow = Date.now();
@@ -17,6 +17,7 @@ export default function BookingForm(rental: Rental): JSX.Element {
     const [guests, setGuests] = useState(1);
     const guestOptions = Array.from(Array(8)).map((_, i) => i + 1);
     const [showConfirmModal, setConfirmModalShown] = useState(false);
+    const [bookingsForRental, setBookingsForRental] = useState<Array<Booking>>([]);
 
     const modalStyle = {
         position: "absolute",
@@ -59,6 +60,27 @@ export default function BookingForm(rental: Rental): JSX.Element {
         return moment(date).format("Do MMMM YYYY");
     }
 
+    function isDateDisabled(date: unknown): boolean {
+        if(date instanceof Date) {
+            if(date.valueOf() < Date.now()) {
+                return true;
+            }
+            
+            return bookingsForRental.some((booking) => (
+                moment(booking.startAt).startOf("day").toDate() <= date && 
+                date <= moment(booking.endAt).startOf("day").toDate()
+            ));
+        }
+
+        return true;
+    }
+
+    useEffect(() => {
+        getBookingsForRental(rental._id).then((bookings) => {
+            setBookingsForRental(bookings);
+        });
+    }, [rental]);
+
     return <div className="border rounded p-3">
         <form onSubmit={onSubmit}>
             <span>
@@ -87,7 +109,7 @@ export default function BookingForm(rental: Rental): JSX.Element {
                         setBookingDateRangeError(e[0] || e[1]);
                     }}
                     value={bookingDateRange}
-                    disablePast />
+                    shouldDisableDate={isDateDisabled}/>
             </div>
             <div className="form-group">
                 <label htmlFor="guests">Guests:</label>

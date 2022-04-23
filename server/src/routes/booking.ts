@@ -38,6 +38,14 @@ router.post("/create", allowOnlyAuthUser, async (req, res) => {
     }
 });
 
+router.get("", async (req, res) => {
+    const rentalId = req.query.rentalId as string;
+
+    const bookingsForRental = await BookingModel.find({rentalId});
+
+    return res.json(bookingsForRental);
+});
+
 async function isBookingValid(booking: Booking): Promise<boolean> {
     const bookingsForRental = await BookingModel.find({rentalId: booking.rentalId});
 
@@ -50,7 +58,7 @@ async function isBookingValid(booking: Booking): Promise<boolean> {
 
         // No date overlaps allowed
         return !bookingStart.isBetween(otherBookingStart, otherBookingEnd, undefined, "[]") &&
-            !bookingEnd.isBetween(otherBookingStart, otherBookingEnd, undefined, "[]");
+            !otherBookingStart.isBetween(bookingStart, bookingEnd, undefined, "[]");
     });
 }
 
