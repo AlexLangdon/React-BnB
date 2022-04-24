@@ -26,4 +26,3 @@ export function cancelBooking(bookingId: string): Promise<Booking> {
     return axiosService.reactBnBAxios.delete<Booking>(`/bookings/${bookingId}`)
         .then(res => res.data);
 }
-

@@ -39,9 +39,9 @@ router.post("/create", allowOnlyAuthUser, async (req, res) => {
 });
 
 router.get("", async (req, res) => {
-    const rentalId = req.query.rentalId as string;
+    const rental = req.query.rental as string;
 
-    const bookingsForRental = await BookingModel.find({rental: rentalId});
+    const bookingsForRental = await BookingModel.find({rental});
 
     return res.json(bookingsForRental);
 });
