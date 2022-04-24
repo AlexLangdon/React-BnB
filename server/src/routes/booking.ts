@@ -46,6 +46,14 @@ router.get("", async (req, res) => {
     return res.json(bookingsForRental);
 });
 
+router.get("/mine", allowOnlyAuthUser, async (req, res) => {
+    const {user} = res.locals;
+
+    const bookingsForUser = await BookingModel.find({userId: user});
+
+    return res.json(bookingsForUser);
+});
+
 async function isBookingValid(booking: Booking): Promise<boolean> {
     const bookingsForRental = await BookingModel.find({rentalId: booking.rentalId});
 
