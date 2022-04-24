@@ -49,7 +49,7 @@ router.get("", async (req, res) => {
 router.get("/mine", allowOnlyAuthUser, async (_, res) => {
     const {user} = res.locals;
 
-    const bookingsForUser = await BookingModel.find({user});
+    const bookingsForUser = await BookingModel.find({user}).populate("rental");
 
     return res.json(bookingsForUser);
 });
