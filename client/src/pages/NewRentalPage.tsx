@@ -5,7 +5,7 @@ import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import { Amenity, ApiError, CreateRentalRequest } from "react-bnb-common";
 import { uploadImage } from "store/slices/rentals";
 import { useHistory } from "react-router-dom";
-import axios from "axios";
+import { axiosService } from "services/AxiosService";
 
 interface NewRentalFormData extends Omit<CreateRentalRequest, "image" | "amenities"> {
     image: File;
@@ -40,7 +40,7 @@ export default function NewRentalPage(): JSX.Element {
                 image: imageUploadResp
             };
 
-            axios.post("/api/rentals/create", createRentalRequest)
+            axiosService.reactBnBAxios.post("/rentals/create", createRentalRequest)
                 .then(resp => {
                     history.push("/");
                 })
@@ -154,7 +154,7 @@ export default function NewRentalPage(): JSX.Element {
                             name="numRooms" 
                             label="Number of Rooms" 
                             type="number"
-                            inputProps={{min: 0, max: 10}}
+                            inputProps={{min: 1, max: 10}}
                             variant="outlined" 
                             className="my-2"
                             error={!!errors.numRooms}
