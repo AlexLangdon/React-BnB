@@ -16,3 +16,9 @@ export const getBookingsForRental = (rentalId: string) => {
     return axiosService.reactBnBAxios.get("/bookings", config)
         .then(res => res.data);
 };
+
+export const getCurrentUserBookings = () => {
+    return axiosService.reactBnBAxios.get("/bookings/mine")
+        .then(res => res.data);
+};
+
