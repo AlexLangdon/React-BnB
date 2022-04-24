@@ -12,15 +12,11 @@ export default function ManageBookingsPage(): JSX.Element {
         });
     }, []);
 
-    return <div className="container">
-        <div className="row">
+    return <div className="d-flex flex-wrap justify-content-center">
             {
                 bookings.map((booking) => (
-                    <div className="col-md-6" key={booking._id}>
-                        <BookingCard {...booking} />
-                    </div>
+                    <BookingCard key={booking._id} {...booking} />
                 ))
             }
-        </div>
     </div>;
 }

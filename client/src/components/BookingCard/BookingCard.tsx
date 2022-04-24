@@ -18,7 +18,7 @@ function formatDateTimeString(date: ParsableDate<string>): string {
 export function BookingCard(booking: Booking): JSX.Element {
     return <Card className="booking-card m-3">
         <CardContent>
-            <Typography gutterBottom variant="h5">
+            <Typography gutterBottom variant="h6">
                 {booking.rental.title} - {capitalize(booking.rental.city)}
             </Typography>
             <p>{formatDateString(booking.startAt)} to {formatDateString(booking.endAt)}</p>

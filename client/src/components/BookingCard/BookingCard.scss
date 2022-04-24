@@ -1,7 +1,11 @@
-button.cancel-button {
-    background-color: #f44336;
+.booking-card {
+    width: 350px;
 
-    &:hover {
-        background-color: #d32f2f;
+    button.cancel-button {
+        background-color: #f44336;
+    
+        &:hover {
+            background-color: #d32f2f;
+        }
     }
 }
