@@ -5,6 +5,7 @@ import RentalDetail from "components/RentalDetail/RentalDetail";
 import ManageBookingsPage from "pages/ManageBookingsPage";
 import ManageRentalsPage from "pages/ManageRentalsPage";
 import NewRentalPage from "pages/NewRentalPage";
+import ReceivedBookingsPage from "pages/ReceivedBookingsPage";
 import { AuthProvider } from "providers/AuthProvider";
 import MapLocationCacheProvider from "providers/MapLocationCacheProvider";
 import React from "react";
@@ -37,6 +38,7 @@ function App(): JSX.Element {
 											<Route path="/new-rental" component={NewRentalPage} />
 											<Route path="/manage-rentals" component={ManageRentalsPage} />
 											<Route path="/manage-bookings" component={ManageBookingsPage} />
+											<Route path="/received-bookings" component={ReceivedBookingsPage} />
 										</Switch>
 									</MapLocationCacheProvider>
 								</AuthProvider>

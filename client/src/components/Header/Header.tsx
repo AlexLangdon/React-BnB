@@ -1,6 +1,7 @@
 import { AppBar, Button, InputAdornment, TextField, Toolbar, Typography, Menu, MenuItem, List, ListItem, ListItemText, SwipeableDrawer, IconButton, ListItemIcon } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 import AddBoxIcon from "@material-ui/icons/AddBox";
+import EventAvailableIcon from "@material-ui/icons/EventAvailable";
 import MenuIcon from "@material-ui/icons/Menu";
 import CollectionsIcon from "@material-ui/icons/Collections";
 import LocalActivityIcon from "@material-ui/icons/LocalActivity";
@@ -86,6 +87,7 @@ export default function Header(): JSX.Element {
 									<MenuItem onClick={handleManageClose}><a href="/new-rental">New Rental</a></MenuItem>
 									<MenuItem onClick={handleManageClose}><a href="/manage-rentals">Manage Rentals</a></MenuItem>
 									<MenuItem onClick={handleManageClose}><a href="/manage-bookings">Manage Bookings</a></MenuItem>
+									<MenuItem onClick={handleManageClose}><a href="/received-bookings">Received Bookings</a></MenuItem>
 								</Menu>
 								<Button color="inherit" variant="outlined" onClick={logout}>Log out</Button>
 							</div>
@@ -116,6 +118,10 @@ export default function Header(): JSX.Element {
 											<ListItem button key="manage-bookings" component="a" href="/manage-bookings">
 													<ListItemIcon><LocalActivityIcon /></ListItemIcon>
 													<ListItemText primary="Manage Bookings" />
+											</ListItem>
+											<ListItem button key="received-bookings" component="a" href="/received-bookings">
+													<ListItemIcon><EventAvailableIcon /></ListItemIcon>
+													<ListItemText primary="Received Bookings" />
 											</ListItem>
 											<ListItem button key="log-out" onClick={logout}>
 												<ListItemIcon><ExitToAppIcon /></ListItemIcon>
