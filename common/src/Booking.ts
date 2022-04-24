@@ -1,4 +1,4 @@
-import { PublicUserDetails } from "PublicUserDetails";
+import { PublicUserDetails } from "./PublicUserDetails";
 import { Rental } from "./Rental";
 
 export interface Booking {

@@ -1,7 +1,7 @@
 import { RentalCategory } from "./RentalCategory";
 import { Amenity } from "./Amenity";
 import { CloudinaryImage } from "./CloudinaryImage";
-import { PublicUserDetails } from "PublicUserDetails";
+import { PublicUserDetails } from "./PublicUserDetails";
 
 export interface Rental {
 	_id: string;
