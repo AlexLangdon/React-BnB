@@ -18,10 +18,19 @@ import { Amenity, Rental } from "react-bnb-common";
 import { Link, RouteComponentProps } from "react-router-dom";
 import "./RentalDetail.scss";
 
+function getUserPhoto(rentalData: Rental): Promise<string> {
+	return axios.get(`https://randomuser.me/api/?seed=${rentalData.owner?.username}`)
+		.then(res => {
+			const {data} = res;
+			return data.results[0].picture.medium;
+		});
+}
+
 export default function RentalDetail(props: RouteComponentProps<{ rentalId: string; }>): JSX.Element {
 	const { rentalId } = props.match.params;
 	const [isLoading, setIsLoading] = useState(true);
 	const [rental, setRental] = useState<Rental | null>(null);
+	const [userPhotoSrc, setUserPhotoSrc] = useState<string>("");
 
 	useEffect(() => {
 		axios.get(`/api/rentals/${rentalId}`).then(resp => {
@@ -29,6 +38,12 @@ export default function RentalDetail(props: RouteComponentProps<{ rentalId: stri
 			setIsLoading(false);
 		});
 	}, [rentalId]);
+
+	useEffect(() => {
+		rental && getUserPhoto(rental).then((photoSrc) => {
+			setUserPhotoSrc(photoSrc);
+		});
+	}, [rental]);
 
 	const getAmenityIcon = (amenity: Amenity) => {
 		const mapping: Record<Amenity, JSX.Element> = {
@@ -46,7 +61,6 @@ export default function RentalDetail(props: RouteComponentProps<{ rentalId: stri
 
 		return mapping[amenity];
 	};
-
 	const renderRentalDetails = (rentalInput: Rental | null) => (
 		rentalInput ? <div className="container">
 			<div className="row">
@@ -59,13 +73,23 @@ export default function RentalDetail(props: RouteComponentProps<{ rentalId: stri
 			</div>
 			<div className="row">
 				<div className="col-md-8">
-					<Typography className="text-capitalize" variant="subtitle2" color="textSecondary">
-						{rentalInput.shared ? "Shared" : "Private"} {rentalInput.category} - {rentalInput.city}
-					</Typography>
-					<h4>{rentalInput.title}</h4>
-					<div className="m-3">
-						<p>{rentalInput.numRooms} {rentalInput.numRooms > 1 ? "Rooms" : "Room"}</p>
-						<p>{rentalInput.description}</p>
+					<div className="d-flex justify-content-between">
+						<div>
+							<Typography className="text-capitalize" variant="subtitle2" color="textSecondary">
+								{rentalInput.shared ? "Shared" : "Private"} {rentalInput.category} - {rentalInput.city}
+							</Typography>
+							<h4>{rentalInput.title}</h4>
+							<div className="m-3">
+								<p>{rentalInput.numRooms} {rentalInput.numRooms > 1 ? "Rooms" : "Room"}</p>
+								<p>{rentalInput.description}</p>
+							</div>
+						</div>
+						{
+							rentalInput.owner ? <div className="m-2">
+								<img className="owner-photo" src={userPhotoSrc} alt="owner"/>
+								<div className="text-center">Owner: <b>{rentalInput.owner.username}</b></div>
+							</div> : null
+						}
 					</div>
 					<hr />
 					<h4>Amenities</h4>
