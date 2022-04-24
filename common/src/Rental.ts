@@ -13,4 +13,5 @@ export interface Rental {
 	description: string;
 	dailyPrice: number;
 	amenities: Array<Amenity>;
+	owner: string;
 }

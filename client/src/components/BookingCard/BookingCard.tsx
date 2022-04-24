@@ -21,7 +21,7 @@ export function BookingCard(booking: Booking): JSX.Element {
         </CardContent>
         <CardActions>
             <Button variant="contained">
-                <Link to={`/rental/${booking.rentalId}`}>View Rental</Link>
+                <Link to={`/rental/${booking.rental}`}>View Rental</Link>
             </Button>
             <Button variant="contained" className="cancel-button" 
                 onClick={() => cancelBooking(booking._id)}>

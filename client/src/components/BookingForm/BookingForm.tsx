@@ -48,7 +48,7 @@ export default function BookingForm(rental: Rental): JSX.Element {
     function onSubmit(e: FormEvent): void {
         e.preventDefault();
         createBooking({
-            rentalId: rental._id,
+            rental: rental._id,
             startAt: moment(bookingDateRange[0]).toDate(),
             endAt: moment(bookingDateRange[1]).toDate(),
             totalCost: numDaysSelected * rental.dailyPrice,

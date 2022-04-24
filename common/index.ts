@@ -7,3 +7,4 @@ export * from "./src/ApiError";
 export * from "./src/CreateRentalRequest";
 export * from "./src/RentalCategory";
 export * from "./src/Booking";
+export * from "./src/CreateBookingRequest";
