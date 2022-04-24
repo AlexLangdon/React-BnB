@@ -1,4 +1,4 @@
-import { Box, MenuItem, Modal, TextField } from "@material-ui/core";
+import { Box, capitalize, MenuItem, Modal, TextField } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import { DateRangePicker, RangeInput } from "@material-ui/pickers";
@@ -8,6 +8,10 @@ import { createBooking, getBookingsForRental } from "services/BookingService";
 import React, { FormEvent, useEffect, useMemo, useState } from "react";
 import { Booking, Rental } from "react-bnb-common";
 
+function formatDateString(date: ParsableDate<string>): string {
+    return moment(date).format("Do MMMM YYYY");
+}
+
 export default function BookingForm(rental: Rental): JSX.Element {
     const dateNow = Date.now();
     const defaultStartDate = moment(dateNow).add(7, "days").toDate();
@@ -16,7 +20,9 @@ export default function BookingForm(rental: Rental): JSX.Element {
     const [bookingDateRangeError, setBookingDateRangeError] = useState<unknown | null>(null);
     const [guests, setGuests] = useState(1);
     const guestOptions = Array.from(Array(8)).map((_, i) => i + 1);
-    const [showConfirmModal, setConfirmModalShown] = useState(false);
+    const [isConfirmModalShown, setConfirmModalShown] = useState(false);
+    const [isResultModalShown, setResultModalShown] = useState(false);
+    const [bookingResult, setBookingResult] = useState<Booking | null>(null);
     const [bookingsForRental, setBookingsForRental] = useState<Array<Booking>>([]);
 
     const modalStyle = {
@@ -53,11 +59,11 @@ export default function BookingForm(rental: Rental): JSX.Element {
             endAt: moment(bookingDateRange[1]).toDate(),
             totalCost: numDaysSelected * rental.dailyPrice,
             guests
+        }).then(result => {
+            setBookingResult(result);
+            setResultModalShown(true);
+            setBookingsForRental([...bookingsForRental, result]);
         });
-    }
-
-    function formatDateString(date: ParsableDate<string>): string {
-        return moment(date).format("Do MMMM YYYY");
     }
 
     function isDateDisabled(date: unknown): boolean {
@@ -71,9 +77,9 @@ export default function BookingForm(rental: Rental): JSX.Element {
                 date <= moment(booking.endAt).startOf("day").toDate()
             ));
         }
-
+    
         return true;
-    }
+    }    
 
     useEffect(() => {
         getBookingsForRental(rental._id).then((bookings) => {
@@ -137,9 +143,10 @@ export default function BookingForm(rental: Rental): JSX.Element {
             >
                 Reserve your place now
             </Button>
-            <Modal open={showConfirmModal}
+            <Modal 
+                open={isConfirmModalShown}
                 onClose={() => setConfirmModalShown(false)}
-                >
+            >
                 <Box css={modalStyle}>
                     <Typography variant="h5" className="text-capitalize">{rental.category} in {rental.city}</Typography>
                     <p>{formatDateString(bookingDateRange[0])} to {formatDateString(bookingDateRange[1])}</p>
@@ -159,6 +166,24 @@ export default function BookingForm(rental: Rental): JSX.Element {
                         <Button variant="contained" 
                             onClick={() => setConfirmModalShown(false)}>Cancel</Button>
                     </div>
+                </Box>
+            </Modal>
+            <Modal 
+                open={isResultModalShown}
+                onClose={() => setResultModalShown(false)}
+            >
+                <Box css={modalStyle}>
+                    <Typography variant="h5">Booking Complete!</Typography>
+                    <hr />
+                    <p>Your {rental.category} in {capitalize(rental.city)}</p>
+                    <p>from {formatDateString(bookingResult?.startAt)} to {formatDateString(bookingResult?.endAt)}</p>
+                    <p>for <b>{bookingResult?.guests}</b> guests is complete</p>
+                    <hr />
+                    <Button
+                        variant="contained" 
+                        onClick={() => setResultModalShown(false)}>
+                        OK
+                    </Button>
                 </Box>
             </Modal>
         </form>
