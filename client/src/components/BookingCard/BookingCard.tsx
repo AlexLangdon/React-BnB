@@ -4,6 +4,8 @@ import moment from "moment";
 import React from "react";
 import { Booking } from "react-bnb-common";
 import { Link } from "react-router-dom";
+import { cancelBooking } from "services/BookingService";
+import "./BookingCard.scss";
 
 function formatDateString(date: ParsableDate<string>): string {
     return moment(date).format("Do MMMM YYYY");
@@ -20,6 +22,10 @@ export function BookingCard(booking: Booking): JSX.Element {
         <CardActions>
             <Button variant="contained">
                 <Link to={`/rental/${booking.rentalId}`}>View Rental</Link>
+            </Button>
+            <Button variant="contained" className="cancel-button" 
+                onClick={() => cancelBooking(booking._id)}>
+                Cancel Booking
             </Button>
         </CardActions>
     </Card>;
