@@ -23,6 +23,8 @@ export function BookingCard(booking: Booking): JSX.Element {
             </Typography>
             <p>{formatDateString(booking.startAt)} to {formatDateString(booking.endAt)}</p>
             <hr />
+            <p>Booked by: <b>{booking.user.username}</b></p>
+            <p>Guest contact: <b>{booking.user.email}</b></p>
             <p>Guests: <b>{booking.guests}</b></p>
             <p>Total Price: <b>£{booking.totalCost}</b></p>
             <p>Created at: <b>{formatDateTimeString(booking.createdAt)}</b></p>

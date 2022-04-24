@@ -49,7 +49,9 @@ router.get("", async (req, res) => {
 router.get("/mine", allowOnlyAuthUser, async (_, res) => {
     const {user} = res.locals;
 
-    const bookingsForUser = await BookingModel.find({user}).populate("rental");
+    const bookingsForUser = await BookingModel.find({user})
+        .populate("rental")
+        .populate("user", "username email");
 
     return res.json(bookingsForUser);
 });

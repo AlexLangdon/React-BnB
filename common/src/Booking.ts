@@ -7,6 +7,9 @@ export interface Booking {
     endAt: Date;
     totalCost: number;
     guests: number;
-    user: string;
+    user: {
+        username: string;
+        email: string;
+    };
     createdAt: Date;
 }
