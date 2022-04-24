@@ -2,6 +2,8 @@ import { AppBar, Button, InputAdornment, TextField, Toolbar, Typography, Menu, M
 import SearchIcon from "@material-ui/icons/Search";
 import AddBoxIcon from "@material-ui/icons/AddBox";
 import MenuIcon from "@material-ui/icons/Menu";
+import CollectionsIcon from "@material-ui/icons/Collections";
+import LocalActivityIcon from "@material-ui/icons/LocalActivity";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import { ReactComponent as Logo } from "images/logo.svg";
@@ -106,6 +108,14 @@ export default function Header(): JSX.Element {
 											<ListItem button key="new-rental" component="a" href="/new-rental">
 													<ListItemIcon><AddBoxIcon /></ListItemIcon>
 													<ListItemText primary="New Rental" />
+											</ListItem>
+											<ListItem button key="manage-rentals" component="a" href="/manage-rentals">
+													<ListItemIcon><CollectionsIcon /></ListItemIcon>
+													<ListItemText primary="Manage Rentals" />
+											</ListItem>
+											<ListItem button key="manage-bookings" component="a" href="/manage-bookings">
+													<ListItemIcon><LocalActivityIcon /></ListItemIcon>
+													<ListItemText primary="Manage Bookings" />
 											</ListItem>
 											<ListItem button key="log-out" onClick={logout}>
 												<ListItemIcon><ExitToAppIcon /></ListItemIcon>
