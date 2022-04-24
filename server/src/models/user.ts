@@ -3,7 +3,7 @@ import validator from "validator";
 import bcrypt from "bcryptjs";
 import mongoose from "mongoose";
 
-export interface User {
+interface User {
 	username: string;
 	email: string;
 	password: string;

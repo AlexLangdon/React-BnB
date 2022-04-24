@@ -1,19 +1,17 @@
-import mongoose, { Document, Schema } from "mongoose";
+import mongoose, { Document, Schema, Types } from "mongoose";
 import { Amenity, RentalCategory  } from "react-bnb-common";
-import { CloudinaryImage } from "./cloudinary-image";
-import { User } from "./user";
 
- interface Rental {
+interface Rental {
 	title: string;
 	city: string;
 	category: RentalCategory;
-	image: CloudinaryImage;
+	image: Types.ObjectId;
 	numRooms: number;
 	shared: boolean;
 	description: string;
 	dailyPrice: number;
 	amenities: Array<Amenity>;
-	owner: User;
+	owner: Types.ObjectId;
 	createdAt: Date;
 }
 
