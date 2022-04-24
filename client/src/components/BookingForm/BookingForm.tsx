@@ -4,7 +4,7 @@ import Typography from "@material-ui/core/Typography";
 import { DateRangePicker, RangeInput } from "@material-ui/pickers";
 import { ParsableDate } from "@material-ui/pickers/constants/prop-types";
 import moment from "moment";
-import { createBooking, getBookingsForRental } from "providers/BookingService";
+import { createBooking, getBookingsForRental } from "services/BookingService";
 import React, { FormEvent, useEffect, useMemo, useState } from "react";
 import { Booking, Rental } from "react-bnb-common";
 
