@@ -2,6 +2,7 @@ import { Card, CardActionArea, CardContent, CardMedia, Typography } from "@mater
 import React from "react";
 import { Rental } from "react-bnb-common";
 import { Link } from "react-router-dom";
+import "./RentalOptionCard.scss";
 
 export default function RentalCard(rental: Rental): JSX.Element {
 	return (
