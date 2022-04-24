@@ -1,4 +1,4 @@
 export interface ApiError {
-    title: string,
-    detail: string
+    title: string;
+    detail: string;
 }

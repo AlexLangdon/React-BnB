@@ -14,7 +14,7 @@ class AxiosService {
         });
 
         newAxios.interceptors.request.use((config: AxiosRequestConfig) => {
-            const token = localStorage.getItem("bwm_user_token");
+            const token = localStorage.getItem("react_bnb_user_token");
 
             if(token) {
                 config.headers.authorization = `Bearer ${token}`;

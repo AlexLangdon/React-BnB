@@ -28,16 +28,16 @@ export function AuthProvider(props: Props): JSX.Element {
     };
 
     const getLocalUserToken = (): string => {
-        return localStorage.getItem("bwm_user_token") ?? "";
+        return localStorage.getItem("react_bnb_user_token") ?? "";
     };
 
     const saveLocalUserToken = (token: string): void => {
-        localStorage.setItem("bwm_user_token", token);
+        localStorage.setItem("react_bnb_user_token", token);
         setAuthenticated(isLocalUserTokenValid(getLocalUserToken()));
     };
 
     const removeLocalUserToken = (): void => {
-        localStorage.removeItem("bwm_user_token");
+        localStorage.removeItem("react_bnb_user_token");
         setAuthenticated(isLocalUserTokenValid(getLocalUserToken()));
     };
 

@@ -11,5 +11,5 @@ export interface CreateRentalRequest {
 	description: string;
 	dailyPrice: number;
 	amenities: Array<Amenity>;
-	image: CloudinaryImage
+	image: CloudinaryImage;
 }
