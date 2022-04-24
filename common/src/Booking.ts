@@ -1,3 +1,4 @@
+import { PublicUserDetails } from "PublicUserDetails";
 import { Rental } from "./Rental";
 
 export interface Booking {
@@ -7,9 +8,6 @@ export interface Booking {
     endAt: Date;
     totalCost: number;
     guests: number;
-    user: {
-        username: string;
-        email: string;
-    };
+    user: PublicUserDetails;
     createdAt: Date;
 }

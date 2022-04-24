@@ -1,5 +1,6 @@
 import express, { Router } from "express";
-import { UserDocument } from "models/user";
+import { RentalModel } from "../models/rental";
+import { UserDocument } from "../models/user";
 import moment from "moment";
 import { CreateBookingRequest } from "react-bnb-common";
 import { allowOnlyAuthUser } from "../controller/user";
@@ -30,7 +31,10 @@ router.post("/create", allowOnlyAuthUser, async (req, res) => {
             user: foundUser._id
         });
         const savedBooking = await booking.save();
-        return res.json(savedBooking);
+        const fullBooking = savedBooking
+            .populate("rental")
+            .populate("user", "username email");
+        return res.json(fullBooking);
     } catch(saveError) {
         return res
             .status(422)
@@ -41,7 +45,9 @@ router.post("/create", allowOnlyAuthUser, async (req, res) => {
 router.get("", async (req, res) => {
     const rental = req.query.rental as string;
 
-    const bookingsForRental = await BookingModel.find({rental});
+    const bookingsForRental = await BookingModel.find({rental})
+        .populate("rental")
+        .populate("user", "username email");
 
     return res.json(bookingsForRental);
 });
@@ -56,12 +62,26 @@ router.get("/mine", allowOnlyAuthUser, async (_, res) => {
     return res.json(bookingsForUser);
 });
 
+router.get("/received", allowOnlyAuthUser, async (_, res) => {
+    const {user} = res.locals;
+
+    const rentals = await RentalModel.find({owner: user._id});
+    const rentalIds = rentals.map(rental => rental.id);
+    const bookingsReceived = await BookingModel.find({rental: {$in: rentalIds}})
+        .populate("rental")
+        .populate("user", "username email");
+
+    return res.json(bookingsReceived);
+});
+
 router.delete("/:bookingId", allowOnlyAuthUser, async (req, res) => {
     const {bookingId} = req.params;
     const {user} = res.locals;
 
     try {
-        const booking: BookingDocument | null = await BookingModel.findById(bookingId);
+        const booking: BookingDocument | null = await BookingModel.findById(bookingId)
+            .populate("rental")
+            .populate("user", "username email");
 
         if(!booking) {
             return res.status(404);

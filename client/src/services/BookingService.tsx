@@ -22,6 +22,11 @@ export function getCurrentUserBookings(): Promise<Array<Booking>> {
         .then(res => res.data);
 }
 
+export function getReceivedBookings(): Promise<Array<Booking>> {
+    return axiosService.reactBnBAxios.get("/bookings/received")
+        .then(res => res.data);
+}
+
 export function cancelBooking(bookingId: string): Promise<Booking> {
     return axiosService.reactBnBAxios.delete<Booking>(`/bookings/${bookingId}`)
         .then(res => res.data);
