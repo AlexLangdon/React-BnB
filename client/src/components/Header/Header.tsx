@@ -83,6 +83,7 @@ export default function Header(): JSX.Element {
 								>
 									<MenuItem onClick={handleManageClose}><a href="/new-rental">New Rental</a></MenuItem>
 									<MenuItem onClick={handleManageClose}><a href="/manage-rentals">Manage Rentals</a></MenuItem>
+									<MenuItem onClick={handleManageClose}><a href="/manage-bookings">Manage Bookings</a></MenuItem>
 								</Menu>
 								<Button color="inherit" variant="outlined" onClick={logout}>Log out</Button>
 							</div>
