@@ -15,6 +15,16 @@ function formatDateTimeString(date: ParsableDate<string>): string {
     return moment(date).format("Do MMMM YYYY HH:mm");
 }
 
+function confirmDeletion(): boolean {
+    return window.confirm("Are you sure you want to delete this booking?");
+}
+
+function beginCancelBooking(bookingId: string): void {
+    if(confirmDeletion()) {
+        cancelBooking(bookingId);
+    }
+}
+
 export function BookingCard(booking: Booking): JSX.Element {
     return <Card className="booking-card m-3">
         <CardContent>
@@ -34,7 +44,7 @@ export function BookingCard(booking: Booking): JSX.Element {
                 <Link to={`/rental/${booking.rental._id}`}>View Rental</Link>
             </Button>
             <Button variant="contained" className="cancel-button" 
-                onClick={() => cancelBooking(booking._id)}>
+                onClick={() => beginCancelBooking(booking._id)}>
                 Cancel Booking
             </Button>
         </CardActions>
