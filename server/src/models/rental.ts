@@ -1,9 +1,9 @@
-import { Document, Schema } from "mongoose";
-import mongoose from "mongoose";
-import { RentalCategory, Amenity } from "react-bnb-common";
+import mongoose, { Document, Schema } from "mongoose";
+import { Amenity, RentalCategory  } from "react-bnb-common";
 import { CloudinaryImage } from "./cloudinary-image";
+import { User } from "./user";
 
-interface Rental {
+ interface Rental {
 	title: string;
 	city: string;
 	category: RentalCategory;
@@ -13,6 +13,8 @@ interface Rental {
 	description: string;
 	dailyPrice: number;
 	amenities: Array<Amenity>;
+	owner: User;
+	createdAt: Date;
 }
 
 interface RentalDocument extends Rental, Document {}
@@ -55,6 +57,14 @@ export const rentalSchema = new Schema<RentalDocument>({
 	},
 	amenities: {
 		type: [String]
+	},
+	owner: { 
+		type: Schema.Types.ObjectId, 
+		ref: "User"
+	},
+	createdAt: { 
+		type: Date, 
+		default: Date.now 
 	}
 });
 
