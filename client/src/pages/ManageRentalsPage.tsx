@@ -12,7 +12,7 @@ export default function ManageRentalsPage(): JSX.Element {
         });
     }, []);
 
-    return <div>
+    return <div className="d-flex flex-wrap justify-content-center">
         {
             rentals.map((rental) => (
                 <RentalCard key={rental._id} {...rental} />
