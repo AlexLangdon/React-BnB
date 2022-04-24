@@ -10,7 +10,8 @@ router.get("/", async (req, res) => {
 	const query = typeof city === "string" ? { city } : {};
 	const rentals = await RentalModel
 		.find(query)
-		.populate("image");
+		.populate("image")
+		.populate("owner", "username email");
 	return res.json(rentals);
 });
 
@@ -19,7 +20,8 @@ router.get("/mine", allowOnlyAuthUser, async (_, res) => {
 	const query = {owner: user};
 	const rentals = await RentalModel
 		.find(query)
-		.populate("image");
+		.populate("image")
+		.populate("owner", "username email");
 	return res.json(rentals);
 });
 
@@ -27,7 +29,8 @@ router.get("/:rentalId", async (req, res) => {
 	const { rentalId } = req.params;
 	const matchingRental = await RentalModel
 		.findById(rentalId)
-		.populate("image");
+		.populate("image")
+		.populate("owner", "username email");
 	return res.json(matchingRental);
 });
 
@@ -50,7 +53,14 @@ router.post("/create", allowOnlyAuthUser, (req, res) => {
 				});
 		}
 
-		return res.json(createdRental);
+		const fullRental = createdRental
+			.populate("image")
+			.populate("owner", "username email");
+
+		return res.json(fullRental);
+	});
+});
+
 	});
 });
 

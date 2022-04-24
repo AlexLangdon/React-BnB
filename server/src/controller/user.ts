@@ -48,6 +48,10 @@ function extractHeaderToken(authHeader: string) {
 function notAuthorized(res: Response) {
     return res
         .status(401)
-        .send({errors: 
-          [{title: "Not Authorized!", detail: "You need to log in to get an access!"}]});
+        .send({
+            errors: [{
+                title: "Not Authorized!", 
+                detail: "You need to log in to get an access!"
+            }]
+        });
 }
