@@ -1,29 +1,29 @@
 import { AxiosRequestConfig } from "axios";
-import { CreateBookingRequest } from "react-bnb-common";
+import { Booking, CreateBookingRequest } from "react-bnb-common";
 import { axiosService } from "services/AxiosService";
 
-export function createBooking(req: CreateBookingRequest) {
-    return axiosService.reactBnBAxios.post("/bookings/create", req)
+export function createBooking(req: CreateBookingRequest): Promise<Booking> {
+    return axiosService.reactBnBAxios.post<Booking>("/bookings/create", req)
         .then(res => res.data);
 }
 
-export function getBookingsForRental(rental: string) {
+export function getBookingsForRental(rental: string): Promise<Array<Booking>> {
     const config: AxiosRequestConfig = {
         params: {
             rental
         }
     };
-    return axiosService.reactBnBAxios.get("/bookings", config)
+    return axiosService.reactBnBAxios.get<Array<Booking>>("/bookings", config)
         .then(res => res.data);
 }
 
-export function getCurrentUserBookings() {
+export function getCurrentUserBookings(): Promise<Array<Booking>> {
     return axiosService.reactBnBAxios.get("/bookings/mine")
         .then(res => res.data);
 }
 
-export function cancelBooking(bookingId: string) {
-    return axiosService.reactBnBAxios.delete(`/bookings/${bookingId}`)
+export function cancelBooking(bookingId: string): Promise<Booking> {
+    return axiosService.reactBnBAxios.delete<Booking>(`/bookings/${bookingId}`)
         .then(res => res.data);
 }
 

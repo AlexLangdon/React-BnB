@@ -70,7 +70,7 @@ router.delete("/:bookingId", allowOnlyAuthUser, async (req, res) => {
         }
 
         await booking.remove();
-        return res.json({id: booking});
+        return res.json(booking);
     } catch(error) {
         return res.status(500);
     }
