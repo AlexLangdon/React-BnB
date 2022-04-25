@@ -6,3 +6,11 @@ a {
 		text-decoration: none;
 	}
 }
+
+button.danger-button {
+	background-color: #f44336;
+
+	&:hover {
+		background-color: #d32f2f;
+	}
+}
