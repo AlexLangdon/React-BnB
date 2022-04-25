@@ -19,7 +19,7 @@ router.post("/login", (req, res) => {
 			const token = jwt.sign({
 				sub: foundUser.id,
 				username: foundUser.username
-			}, config.JWT_SECRET, { expiresIn: "10m" });
+			}, config.JWT_SECRET, { expiresIn: "12h" });
 	
 			return res.json(token);
 		}
