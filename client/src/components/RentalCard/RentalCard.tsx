@@ -2,11 +2,11 @@ import { Card, CardActionArea, CardContent, CardMedia, Typography } from "@mater
 import React from "react";
 import { Rental } from "react-bnb-common";
 import { Link } from "react-router-dom";
-import "./RentalOptionCard.scss";
+import "./RentalCard.scss";
 
 export default function RentalCard(rental: Rental): JSX.Element {
 	return (
-		<Card className="rental-option-card m-3">
+		<Card className="rental-card m-3">
 			<CardActionArea component={Link} to={`/rental/${rental._id}`}>
 				<CardMedia className="rental-card-image" image={rental.image.url} />
 				<CardContent>
@@ -20,7 +20,7 @@ export default function RentalCard(rental: Rental): JSX.Element {
 					</Typography>
 					<Typography variant="subtitle1" color="textSecondary">
 						£{rental.dailyPrice} per night - Free Cancellation
-				</Typography>
+					</Typography>
 				</CardContent>
 			</CardActionArea>
 		</Card>

@@ -1,4 +1,4 @@
-import RentalCard from "components/RentalCard/RentalOptionCard";
+import RentalCard from "components/RentalCard/RentalCard";
 import React, { useEffect, useState } from "react";
 import { Rental } from "react-bnb-common";
 import { getCurrentUserRentals } from "services/RentalService";

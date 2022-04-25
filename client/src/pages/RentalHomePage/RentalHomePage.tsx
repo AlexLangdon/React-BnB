@@ -1,5 +1,5 @@
 import axios from "axios";
-import RentalCard from "components/RentalCard/RentalOptionCard";
+import RentalCard from "components/RentalCard/RentalCard";
 import React, { useEffect, useMemo } from "react";
 import { Rental } from "react-bnb-common";
 import { useSelector } from "react-redux";
