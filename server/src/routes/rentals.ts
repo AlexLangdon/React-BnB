@@ -2,6 +2,7 @@ import express, { Router } from "express";
 import { RentalModel } from "../models/rental";
 import { CreateRentalRequest } from "react-bnb-common";
 import { allowOnlyAuthUser } from "../controller/user";
+import { BookingModel } from "../models/booking";
 
 const router: Router = express.Router();
 
@@ -61,7 +62,43 @@ router.post("/create", allowOnlyAuthUser, (req, res) => {
 	});
 });
 
-	});
+router.delete("/:rentalId", allowOnlyAuthUser, async (req, res) => {
+	const { rentalId } = req.params;
+	const { user } = res.locals;
+
+	try {
+		const rental = await RentalModel.findById(rentalId)
+			.populate("owner", "username email");
+
+		if(!rental) {
+			return res
+				.status(404)
+				.send({
+					errors: [{
+						title: "Invalid rental ID!", 
+						detail: "Specified rental cannot be found!"
+					}]
+				});
+		}
+
+		if(!rental.owner.equals(user)) {
+			return res
+				.status(401)
+				.send({
+					errors: [{
+						title: "Unauthorized operation!", 
+						detail: "Not authorized to perform this operation on the given object!"
+					}]
+				});
+		}
+
+		await rental.remove();
+		await BookingModel.deleteMany({rental: rental._id}); 		
+
+		return res.json(rental);
+	} catch {
+		return res.status(500);
+	}
 });
 
 export default router;
