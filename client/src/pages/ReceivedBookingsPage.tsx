@@ -15,17 +15,17 @@ export default function ReceivedBookingsPage(): JSX.Element {
     }, []);
 
     return <div className="d-flex flex-wrap justify-content-center">
-            {
-                bookings.map((booking) => (
-                    <Box key={booking._id} className="border border-secondary rounded m-2">
-                        <BookingCard {...booking} />
-                        <div className="m-3">
-                            <Button variant="contained">
-                                <Link to={`/rental/${booking.rental._id}`}>View Rental</Link>
-                            </Button>
-                        </div>
-                    </Box>
-                ))
-            }
+        {
+            bookings.length ? bookings.map((booking) => (
+                <Box key={booking._id} className="border border-secondary rounded m-2">
+                    <BookingCard {...booking} />
+                    <div className="m-3">
+                        <Button variant="contained">
+                            <Link to={`/rental/${booking.rental._id}`}>View Rental</Link>
+                        </Button>
+                    </div>
+                </Box>
+            )) : <h2 className="my-5">No Bookings Found</h2>
+        }
     </div>;
 }
