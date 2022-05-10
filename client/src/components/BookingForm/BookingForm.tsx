@@ -7,6 +7,8 @@ import moment from "moment";
 import { createBooking, getBookingsForRental } from "services/BookingService";
 import React, { FormEvent, useEffect, useMemo, useState } from "react";
 import { Booking, Rental } from "react-bnb-common";
+import { useAuth } from "providers/AuthProvider";
+import { useHistory } from "react-router-dom";
 
 function formatDateString(date: ParsableDate<string>): string {
     return moment(date).format("Do MMMM YYYY");
@@ -24,6 +26,8 @@ export default function BookingForm(rental: Rental): JSX.Element {
     const [isResultModalShown, setResultModalShown] = useState(false);
     const [bookingResult, setBookingResult] = useState<Booking | null>(null);
     const [bookingsForRental, setBookingsForRental] = useState<Array<Booking>>([]);
+    const auth = useAuth();
+    const history = useHistory();
 
     const modalStyle = {
         position: "absolute",
@@ -135,14 +139,25 @@ export default function BookingForm(rental: Rental): JSX.Element {
                     ))}
                 </TextField>
             </div>
-            <Button variant="contained"
-                color="secondary" 
-                className="mt-2 form-control font-weight-bold"
-                disabled={!isFormValid}
-                onClick={() => setConfirmModalShown(true)}
-            >
-                Reserve your place now
-            </Button>
+            {
+                auth.isAuthenticated ?
+                <Button variant="contained"
+                    color="secondary" 
+                    className="mt-2 form-control font-weight-bold"
+                    disabled={!isFormValid}
+                    onClick={() => setConfirmModalShown(true)}
+                >
+                    Reserve your place now
+                </Button>
+                :
+                <Button variant="contained"
+                    color="secondary" 
+                    className="mt-2 form-control font-weight-bold"
+                    onClick={() => history.push("/login")}
+                >
+                    Log in to reserve booking
+                </Button>
+            }
             <Modal 
                 open={isConfirmModalShown}
                 onClose={() => setConfirmModalShown(false)}
