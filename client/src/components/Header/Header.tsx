@@ -15,11 +15,6 @@ import "./Header.scss";
 
 export default function Header(): JSX.Element {
 	const auth = useAuth();
-
-	const logout = () => {
-		auth.removeLocalUserToken();
-	};
-
 	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
 	const handleManageClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -36,6 +31,10 @@ export default function Header(): JSX.Element {
 	const [locationSearch, setLocationSearch] = React.useState("");
 	const handleSearch = () => {
 		history.push(`/rentals/${locationSearch}`);
+	};
+	const logout = () => {
+		auth.removeLocalUserToken();
+		history.push("/");
 	};
 	
 	return <AppBar position="static">
