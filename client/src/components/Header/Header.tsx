@@ -96,10 +96,22 @@ export default function Header(): JSX.Element {
 									anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
 									transformOrigin={{ vertical: "top", horizontal: "left" }}
 								>
-									<MenuItem onClick={handleManageClose}><a href="/new-rental">New Rental</a></MenuItem>
-									<MenuItem onClick={handleManageClose}><a href="/manage-rentals">Manage Rentals</a></MenuItem>
-									<MenuItem onClick={handleManageClose}><a href="/manage-bookings">Manage Bookings</a></MenuItem>
-									<MenuItem onClick={handleManageClose}><a href="/received-bookings">Received Bookings</a></MenuItem>
+									<MenuItem onClick={handleManageClose} component="a" href="/new-rental">
+											<ListItemIcon><AddBoxIcon /></ListItemIcon>
+											<ListItemText primary="New Rental" />
+									</MenuItem>
+									<MenuItem onClick={handleManageClose} component="a" href="/manage-rentals">
+										<ListItemIcon><CollectionsIcon /></ListItemIcon>
+										<ListItemText primary="Manage Rentals" />
+									</MenuItem>
+									<MenuItem onClick={handleManageClose} component="a" href="/manage-bookings">
+										<ListItemIcon><LocalActivityIcon /></ListItemIcon>
+										<ListItemText primary="Manage Bookings" />
+									</MenuItem>
+									<MenuItem onClick={handleManageClose} component="a" href="/received-bookings">
+										<ListItemIcon><EventAvailableIcon /></ListItemIcon>
+										<ListItemText primary="Received Bookings" />
+									</MenuItem>
 								</Menu>
 								<Button color="inherit" variant="outlined" onClick={logout}>Log out</Button>
 							</div>
