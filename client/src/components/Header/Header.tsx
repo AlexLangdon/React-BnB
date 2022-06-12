@@ -9,9 +9,13 @@ import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import { ReactComponent as Logo } from "images/logo.svg";
 import { useAuth } from "providers/AuthProvider";
-import React from "react";
-import { Link, useHistory } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Link, useHistory, useLocation, useRouteMatch } from "react-router-dom";
 import "./Header.scss";
+
+interface HeaderRouteMatch {
+	locationString: string;
+}
 
 export default function Header(): JSX.Element {
 	const auth = useAuth();
@@ -27,8 +31,16 @@ export default function Header(): JSX.Element {
 
 	const [drawerOpen, setDrawerOpen] = React.useState<boolean>(false);
 
-	const history = useHistory();
 	const [locationSearch, setLocationSearch] = React.useState("");
+	const routeMatch = useRouteMatch<HeaderRouteMatch>("/rentals/:locationString");
+	const location = useLocation();
+	useEffect(() => {
+		// Set search bar string from URL params when opening a rentals search URL
+		// Clear the search bar when navigating away from rentals search page
+		setLocationSearch(routeMatch?.params.locationString ?? "");
+	}, [routeMatch?.params.locationString, location]);
+
+	const history = useHistory();
 	const handleSearch = () => {
 		history.push(`/rentals/${locationSearch}`);
 	};
@@ -59,6 +71,7 @@ export default function Header(): JSX.Element {
 									</InputAdornment>
 								)
 							}}
+							value={locationSearch}
 							onChange={(e) => setLocationSearch(e.target.value)}
 						/>
 						<Button className="search-button" color="secondary" variant="outlined" onClick={handleSearch}>
